@@ -124,5 +124,5 @@ def get_mrt_stations():
 		return jsonify(error_response), 500
 	finally:
 		cursor.close()
-	
+app.debug = True
 app.run(host="0.0.0.0", port=3000)
