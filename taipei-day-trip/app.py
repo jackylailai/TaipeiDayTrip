@@ -3,15 +3,18 @@ import mysql.connector
 import os
 from dotenv import load_dotenv
 import os.path
-
+app.config['DB_HOST'] = os.environ.get('DB_HOST')
+app.config['DB_USER'] = os.environ.get('DB_USER')
+app.config['DB_PASSWORD'] = os.environ.get('DB_PASSWORD')
+app.config['DB_DATABASE'] = os.environ.get('DB_DATABASE')
 # 載入.env文件中的環境變數
 load_dotenv()
 # 從環境變數中讀取資料庫配置
 db_config = {
-    "host": os.getenv("DB_HOST"),
-    "user": os.getenv("DB_USER"),
-    "password": os.getenv("DB_PASSWORD"),
-    "database": os.getenv("DB_DATABASE"),
+    "host": app.config['DB_HOST'],
+    "user": app.config['DB_USER'],
+    "password": app.config['DB_PASSWORD'],
+    "database": app.config['DB_DATABASE'],
 }
 
 connection = mysql.connector.connect(**db_config)
