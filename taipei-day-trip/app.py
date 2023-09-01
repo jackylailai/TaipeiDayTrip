@@ -10,8 +10,8 @@ import os.path
 db_config = {
     "host": os.environ.get('DB_HOST'),
     "user": os.environ.get("DB_USER"),
-    "password": os.environ("DB_PASSWORD"),
-    "database": os.environ("DB_DATABASE"),
+    "password": os.environ.get("DB_PASSWORD"),
+    "database": os.environ.get("DB_DATABASE"),
 }
 
 connection = mysql.connector.connect(**db_config)
