@@ -3,8 +3,8 @@ import mysql.connector
 import os
 from dotenv import load_dotenv
 import os.path
-import logging
-logging.basicConfig(filename='app.log', level=logging.DEBUG)
+# import logging
+# logging.basicConfig(filename='app.log', level=logging.DEBUG)
 
 # 載入.env文件中的環境變數
 # load_dotenv()
@@ -119,13 +119,12 @@ def get_mrt_stations():
 		return jsonify(response), 200
 	
 	except Exception as e:
-		# error_response = {
-        #     "error": True,
-        #     "message": str(e)
-		# }
-            logging.error(f"An error occurred: {str(e)}")
-		# return jsonify(error_response), 500
-	# finally:
-	# 	cursor.close()
+		error_response = {
+            "error": True,
+            "message": str(e)
+		}
+		return jsonify(error_response), 500
+	finally:
+		cursor.close()
 app.debug = True
 app.run(host="0.0.0.0", port=3000)
