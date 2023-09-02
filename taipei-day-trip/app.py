@@ -54,7 +54,11 @@ def get_attractions():
         query = "SELECT * FROM attractions WHERE name LIKE %s OR mrt LIKE %s LIMIT %s, %s"
         cursor.execute(query, ("%" + keyword + "%", "%" + keyword + "%", start_index, per_page))
         attractions=cursor.fetchall()
-        
+        #一個一個放進來改image為list
+        for attraction in attractions:
+            images_str = attraction["images"]
+            image_list = json.loads(images_str)
+            attraction["images"] = image_list
         response = {
             "nextPage": page + 1 if len(attractions) >= per_page else None,
             "data": attractions
