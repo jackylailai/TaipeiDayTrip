@@ -45,8 +45,11 @@ def get_attractions():
         page = int(request.args.get("page", 1))
         keyword = request.args.get("keyword", "")
         per_page = 12
-        if page!=0:
-            start_index = (page - 1) * per_page#用來計算要是第幾個索引開始（用頁數去減）
+        if page > 0:
+            start_index = (page - 1) * per_page
+        else:
+            start_index = 0
+        #用來計算要是第幾個索引開始（用頁數去減）
     
         query = "SELECT * FROM attractions WHERE name LIKE %s OR mrt LIKE %s LIMIT %s, %s"
         cursor.execute(query, ("%" + keyword + "%", "%" + keyword + "%", start_index, per_page))
