@@ -42,11 +42,11 @@ def thankyou():
 def get_attractions():
     try:
         cursor = connection.cursor(dictionary=True)
-        page = int(request.args.get("page", 1))
+        page = int(request.args.get("page", 0))
         keyword = request.args.get("keyword", "")
         per_page = 12
-        if page > 0:
-            start_index = (page - 1) * per_page
+        if page >=0:
+            start_index = page * per_page
         else:
             start_index = 0
         #用來計算要是第幾個索引開始（用頁數去減）
@@ -78,6 +78,8 @@ def get_attraction(attractionId):
         attraction = cursor.fetchone()
 
         if attraction:
+            images_str = attraction["images"]
+            image_list = json.loads(images_str)
             response = {
                 "data": {
                     "id": attraction["id"],
@@ -89,7 +91,7 @@ def get_attraction(attractionId):
                     "mrt": attraction["mrt"],
                     "lat": attraction["lat"],
                     "lng": attraction["lng"],
-                    "images": attraction["images"].split(","),
+                    "images": image_list,
                 }
             }
             return jsonify(response), 200
