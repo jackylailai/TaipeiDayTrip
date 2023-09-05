@@ -40,6 +40,7 @@ def thankyou():
 	return render_template("thankyou.html")
 @app.route("/api/attractions", methods=["GET"])
 def get_attractions():
+    cursor=None
     try:
         cursor = connection.cursor(dictionary=True)
         page = int(request.args.get("page", 0))
@@ -75,6 +76,7 @@ def get_attractions():
           cursor.close()
 @app.route("/api/attraction/<int:attractionId>", methods=["GET"])
 def get_attraction(attractionId):
+    cursor=None
     try:
         cursor = connection.cursor(dictionary=True)
         query = "SELECT * FROM attractions WHERE id = %s"
@@ -116,25 +118,35 @@ def get_attraction(attractionId):
 
 @app.route("/api/mrts", methods=["GET"])
 def get_mrt_stations():
-	try:
-		cursor = connection.cursor()
-		query="SELECT MRT,COUNT(*) AS attractions_count FROM attractions GROUP BY MRT ORDER BY attractions_count DESC"
-		cursor.execute(query)
-		results = cursor.fetchall()
-		mrt_list = [result[0] for result in results]
-		response = {
+    cursor=None  
+    try:
+        cursor = connection.cursor()
+        query="SELECT MRT,COUNT(*) AS attractions_count FROM attractions GROUP BY MRT ORDER BY attractions_count DESC"
+        cursor.execute(query)
+        results = cursor.fetchall()
+        mrt_list = [result[0] for result in results]
+        response = {
             "data": mrt_list
         }
-		cursor.close()
-		return jsonify(response), 200
-	
-	except Exception as e:
-		error_response = {
+        cursor.close()
+        return jsonify(response), 200
+    except Exception as e:
+        error_response = {
             "error": True,
             "message": str(e)
-		}
-		return jsonify(error_response), 500
-	finally:
-		cursor.close()
+        }
+        return jsonify(error_response), 500
+    finally:
+        cursor.close()
 app.debug = True
 app.run(host="0.0.0.0", port=3000)
+# cursor = None  # 在 try 块外部初始化 cursor 变量
+
+# try:
+#     cursor = connection.cursor(dictionary=True)
+#     # 其他操作
+# except Exception as e:
+#     # 处理异常
+# finally:
+#     if cursor:
+#         cursor.close()  # 在 finally 块中检查并关闭 cursor 变量
