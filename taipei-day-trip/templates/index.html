@@ -8,6 +8,7 @@
     <title>Taipei Trip index</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <script src="{{ url_for("static", filename="js/home.js" ) }}"></script>
 </head>
 
 <body>
@@ -33,7 +34,8 @@
                 <div class="search">
                     <form class="search-form">
                         <input type="text" placeholder="輸入景點名稱查詢">
-                        <button class="search-button">🔍</button>
+                        <img src="{{ url_for('static', filename='images/scope.png') }}" alt="" class="search-button">
+                        <!-- <button class="search-button">🔍</button> -->
                     </form>
                 </div>
             </div>
@@ -41,80 +43,18 @@
     </div>
     <div class="listbar-center">
         <div class="list-bar">
-            <button class="arrow-button left-button">←</button>
+            <!-- <button class="arrow-button left-button">←</button> -->
+            <img src="{{ url_for('static', filename='images/left-button.png') }}" alt="" class="left-button">
             <div class="list">
-                <p>Item1</p>
-                <p>Item2</p>
-                <p>Item3</p>
-                <p>Item4</p>
             </div>
-            <button class="arrow-button right-button">→</button>
+            <img src="{{ url_for('static', filename='images/right-button.png') }}" alt="" class="right-button">
+            <!-- <button class="arrow-button right-button">→</button> -->
         </div>
     </div>
 
     <div class="wrapper">
         <div class="content">
-            <div class="content2">
-                <div class="titlepic">
-                    <img src="{{ url_for('static', filename='images/mountain.jpg') }}" class="image" alt="Promotion 3">
-                    <div class="overlay">
-                        景點名稱
-                    </div>
-                    <div class="title">
-                        <p>捷運站</p>
-                        <p>景點描述</p>
-                    </div>
-                </div>
-                <div class="titlepic">
-                    <img src="{{ url_for('static', filename='images/mountain.jpg') }}" class="image" alt="Promotion 3">
-                    <div class="overlay">
-                        景點名稱
-                    </div>
-                    <div class="title">
-                        <p>捷運站</p>
-                        <p>景點描述</p>
-                    </div>
-                </div>
-                <div class="titlepic">
-                    <img src="{{ url_for('static', filename='images/mountain.jpg') }}" class="image" alt="Promotion 3">
-                    <div class="overlay">
-                        景點名稱
-                    </div>
-                    <div class="title">
-                        <p>捷運站</p>
-                        <p>景點描述</p>
-                    </div>
-                </div>
-                <div class="titlepic">
-                    <img src="{{ url_for('static', filename='images/mountain.jpg') }}" class="image" alt="Promotion 3">
-                    <div class="overlay">
-                        景點名稱
-                    </div>
-                    <div class="title">
-                        <p>捷運站</p>
-                        <p>景點描述</p>
-                    </div>
-                </div>
-                <div class="titlepic">
-                    <img src="{{ url_for('static', filename='images/mountain.jpg') }}" class="image" alt="Promotion 3">
-                    <div class="overlay">
-                        景點名稱
-                    </div>
-                    <div class="title">
-                        <p>捷運站</p>
-                        <p>景點描述</p>
-                    </div>
-                </div>
-                <div class="titlepic">
-                    <img src="{{ url_for('static', filename='images/mountain.jpg') }}" class="image" alt="Promotion 3">
-                    <div class="overlay">
-                        景點名稱
-                    </div>
-                    <div class="title">
-                        <p>捷運站</p>
-                        <p>景點描述</p>
-                    </div>
-                </div>
+            <div class="content2" id="attraction-list">
             </div>
         </div>
     </div>

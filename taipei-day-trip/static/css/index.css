@@ -1,9 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,500&display=swap&subset=chinese-traditional');
+
+body {
+    font-family: "Noto Sans TC", "Microsoft Yahei", "微軟雅黑", sans-serif;
+}
+
 .top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 54px;
-    width: 360px;
+    width: 100%;
 }
 
 .left-div {
@@ -38,6 +44,8 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
+    margin-bottom: 10px;
+    /* 之後再看怎麼調整先救火  */
 }
 
 .hero-text h2 {
@@ -52,6 +60,7 @@
     padding: 10px;
     gap: 10px;
     height: 170px;
+    flex-direction: column;
 }
 
 .hero-text p {
@@ -60,9 +69,13 @@
 }
 
 .search {
-    /* width:285px; */
     height: 45px;
     display: flex;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
 }
 
 .search-form input[type="text"] {
@@ -70,23 +83,23 @@
     height: 45px;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     margin: 0;
+    text-indent: 10px;
+    /* 這可以記起來！ */
 }
 
 .search-button {
     width: 60px;
-    background-color: #007bff;
     color: #fff;
     border: none;
-    padding: 10px 20px;
     cursor: pointer;
+    border-radius: 10px;
 }
 
 .list-bar {
     display: flex;
     align-items: center;
-    padding: 10px;
     border: 1px solid #ccc;
     justify-content: space-around;
 }
@@ -100,16 +113,7 @@
     cursor: pointer;
 }
 
-.overlay {
-    position: absolute;
-    bottom: 45px;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    font-size: 16px;
-    color: #FFFFFF;
-    background-color: rgba(178, 185, 183, 0.422);
-}
+
 
 .wrapper {
     display: flex;
@@ -138,13 +142,35 @@
 
 }
 
+.titlepic {
+    position: relative;
+}
+
+.overlay {
+    display: flex;
+    position: absolute;
+    bottom: 45px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    color: #FFFFFF;
+    background-color: rgba(178, 185, 183, 0.808);
+    align-items: center;
+}
+.overlay p{
+    padding: 10px;
+}
+.titlediv {
+    color: #FFFFFF;
+}
+.title p {
+    display: flex;
+    padding: 10px;
+}
 .titlepic img {
     width: 100%;
-    height: 318px;
-    /* justify-content: center; */
-    flex-shrink: 1;
-    flex-grow: 0;
-    flex-basis: 0;
+    height: 235px;
     margin-top: 20px;
     display: block;
     position: relative;
@@ -152,26 +178,56 @@
 
 .title {
     width: 100%;
-    background-color: #793232;
-    /* flex:none; */
+    background-color: #FFFFFF;
+    color: #757575;
     text-align: center;
-    flex-shrink: 1;
-    flex-grow: 0;
-    flex-basis: 0;
     height: 45px;
     display: flex;
-    align-content: center;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
     font-size: 16px;
+    align-items: center;
+}
+
+.title p {
+    color: #757575;
 }
 
 .topcenter {
     display: flex;
     justify-content: center;
 }
-@media screen and (min-width: 600px) and (max-width: 1200px) {}
+
+footer {
+    position: absolute;
+    font-size: 16px;
+    background-color: #757575;
+    color: #ffff;
+    height: 105px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    line-height: 50px;
+}
+
+@media screen and (min-width: 600px) and (max-width: 1200px) {
+    .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+    .content2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        width:100%;
+    }
+}
+
 @media screen and (min-width: 1200px) {
     .top {
         width: 1200px;
@@ -215,7 +271,13 @@
         width: 1200px;
     }
 
-    .footer {
+    .titlepic img {
+        width: 100%;
+        height: 235px;
+    }
+
+    footer {
+        position: absolute;
         font-size: 16px;
         background-color: #757575;
         color: #ffff;
@@ -223,5 +285,10 @@
         margin: 0 auto;
         text-align: center;
         padding: 10px;
+        position: relative;
+        left: 0;
+        bottom: 0;
+        line-height: 50px;
     }
+
 }

@@ -73,7 +73,8 @@ def get_attractions():
         }
         return jsonify(error_response), 500
     finally:
-          cursor.close()
+        if cursor:
+            cursor.close()
 @app.route("/api/attraction/<int:attractionId>", methods=["GET"])
 def get_attraction(attractionId):
     cursor=None
@@ -114,8 +115,8 @@ def get_attraction(attractionId):
         }
         return jsonify(error_response), 500
     finally:
-        cursor.close()
-
+        if cursor:
+            cursor.close()
 @app.route("/api/mrts", methods=["GET"])
 def get_mrt_stations():
     cursor=None  
@@ -137,16 +138,7 @@ def get_mrt_stations():
         }
         return jsonify(error_response), 500
     finally:
-        cursor.close()
+        if cursor:
+            cursor.close()
 app.debug = True
 app.run(host="0.0.0.0", port=3000)
-# cursor = None  # 在 try 块外部初始化 cursor 变量
-
-# try:
-#     cursor = connection.cursor(dictionary=True)
-#     # 其他操作
-# except Exception as e:
-#     # 处理异常
-# finally:
-#     if cursor:
-#         cursor.close()  # 在 finally 块中检查并关闭 cursor 变量
