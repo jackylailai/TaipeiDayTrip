@@ -5,6 +5,7 @@ body {
 }
 
 .top {
+    text-indent: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,7 +23,7 @@ body {
     display: flex;
     color: #666666;
     font-size: 16px;
-    column-gap: 20px;
+    column-gap: 10px;
 }
 
 .right-div> :last-child {
@@ -44,6 +45,7 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
+    text-indent: 10px;
     margin-bottom: 10px;
     /* 之後再看怎麼調整先救火  */
 }
@@ -76,6 +78,7 @@ body {
 .search-form {
     display: flex;
     align-items: center;
+    margin-left: 10px;
 }
 
 .search-form input[type="text"] {
@@ -89,8 +92,9 @@ body {
     /* 這可以記起來！ */
 }
 
-.search-button {
+#search-button {
     width: 60px;
+    height:49px;
     color: #fff;
     border: none;
     cursor: pointer;
@@ -98,10 +102,9 @@ body {
 }
 
 .list-bar {
-    display: flex;
     align-items: center;
-    border: 1px solid #ccc;
-    justify-content: space-around;
+    display: flex;
+    justify-content: space-between;
 }
 
 .arrow-button {
@@ -119,7 +122,6 @@ body {
     display: flex;
     justify-content: center;
 }
-
 .list {
     display: flex;
     justify-content: space-between;
@@ -133,8 +135,6 @@ body {
 .content2 {
     flex-wrap: wrap;
     justify-content: center;
-    /* clear: both; */
-    /* margin: 0 auto; */
     margin-bottom: 20px;
     column-gap: 20px;
     /* width:25%; */
@@ -188,6 +188,7 @@ body {
     justify-content: space-between;
     font-size: 16px;
     align-items: center;
+    border-bottom: 1px solid #ccc;
 }
 
 .title p {
