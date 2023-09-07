@@ -8,7 +8,7 @@
     <title>Taipei Trip index</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    <script src="{{ url_for("static", filename="js/home.js" ) }}"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> -->
 </head>
 
 <body>
@@ -35,21 +35,23 @@
                     <form class="search-form">
                         <input type="text" placeholder="輸入景點名稱查詢">
                         <img src="{{ url_for('static', filename='images/scope.png') }}" alt="" id="search-button">
-                        <!-- <button class="search-button">🔍</button> -->
+                        <!-- <button class="search-button"><i class="fa fa-search"></i></button> -->
                     </form>
                 </div>
             </div>
         </div>
     </div>
     <div class="listbar-center">
+        <img src="{{ url_for('static', filename='images/left-button.png') }}" alt="" class="left-button">
         <div class="list-bar">
             <!-- <button class="arrow-button left-button">←</button> -->
-            <img src="{{ url_for('static', filename='images/left-button.png') }}" alt="" class="left-button">
+            <!-- <img src="{{ url_for('static', filename='images/left-button.png') }}" alt="" class="left-button"> -->
             <div class="list">
             </div>
-            <img src="{{ url_for('static', filename='images/right-button.png') }}" alt="" class="right-button">
+            <!-- <img src="{{ url_for('static', filename='images/right-button.png') }}" alt="" class="right-button"> -->
             <!-- <button class="arrow-button right-button">→</button> -->
         </div>
+        <img src="{{ url_for('static', filename='images/right-button.png') }}" alt="" class="right-button">
     </div>
 
     <div class="wrapper">
@@ -62,5 +64,6 @@
         <p>COPYRIGHT © 2021 台北一日遊</p>
     </footer>
 </body>
-
+<script src="{{ url_for("static", filename="js/home.js" ) }}"></script>
+<!-- <script src="https://kit.fontawesome.com/5ffbd77886.js" crossorigin="anonymous"></script> -->
 </html>

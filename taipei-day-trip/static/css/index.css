@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,500&display=swap&subset=chinese-traditional');
-
+/* @import url(https://fonts.googleapis.com/css?family=Open+Sans); */
 body {
     font-family: "Noto Sans TC", "Microsoft Yahei", "微軟雅黑", sans-serif;
 }
@@ -91,7 +91,24 @@ body {
     text-indent: 10px;
     /* 這可以記起來！ */
 }
-
+/* .fa-search {
+    width: 60px;
+    height:49px;
+    border: 1px solid #448899;
+    background: #448899;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+  } */
+/* .search-button{
+    background-color:#448899;
+    color:red;
+    border:none;
+    box-sizing: border-box;
+    border-top-right-radius: 5px;
+} */
 #search-button {
     width: 60px;
     height:49px;
@@ -105,27 +122,40 @@ body {
     align-items: center;
     display: flex;
     justify-content: space-between;
+    overflow-x: scroll;
+}
+.left-button{
+    cursor: pointer;
+}
+.right-button{
+    cursor: pointer;
 }
 
-.arrow-button {
+/* .arrow-button {
     background-color: #007bff;
     color: #fff;
     border: none;
     padding: 10px 20px;
     margin: 5px;
     cursor: pointer;
-}
-
-
-
+} */
 .wrapper {
     display: flex;
     justify-content: center;
 }
 .list {
     display: flex;
-    justify-content: space-between;
+    gap: 30px;
 }
+.list span {
+    cursor: pointer;
+    white-space: nowrap; /* 不換行 */
+  }
+.listbar-center {
+    display: flex;
+    justify-content: center;
+}
+
 
 .content {
     width: 90%;
@@ -155,7 +185,7 @@ body {
     height: 40px;
     font-size: 16px;
     color: #FFFFFF;
-    background-color: rgba(178, 185, 183, 0.808);
+    background-color: #3232329f;
     align-items: center;
 }
 .overlay p{

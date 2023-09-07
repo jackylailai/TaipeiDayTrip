@@ -1,5 +1,10 @@
 console.log("成功引入home.js")
 // 處理圖片邏輯
+// 抓取瀏覽器視窗的寬度
+const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+// 將寬度輸出到控制台
+console.log('瀏覽器寬度：', windowWidth);
+
 document.addEventListener("DOMContentLoaded", function () {
     const attractionList = document.getElementById('attraction-list');
 
@@ -51,12 +56,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const attractionList = document.getElementById('attraction-list');
     let page = 0; 
-    
+    let shouldFetchData = true;
+    let isLoading = false;
+
     window.addEventListener('scroll', () => {
       const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
       const containerBottom = attractionList.getBoundingClientRect().bottom;
+        
+      if (containerBottom <= window.innerHeight + 10 && shouldFetchData && !isLoading) {
+        isLoading = true; 
 
-      if (containerBottom <= window.innerHeight + 10) {
         fetch(`/api/attractions?page=${page + 1}`)
           .then((response) => response.json())
           .then((data) => {
@@ -93,8 +102,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // 將 div.titlepic 添加到景點列表中
                 attractionList.appendChild(div);
+                console.log(`page: ${page}, shouldFetchData: ${shouldFetchData}`);
             });
-
+            if (page < 4) { 
+                page++;
+              } else {
+                shouldFetchData = false; 
+              }
+              isLoading = false;
           })
           .catch((error) => {
             console.error('Error fetching data:', error);
@@ -235,12 +250,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // });
 
+
 //搜尋之後跳轉（可以執行）
 document.addEventListener("DOMContentLoaded", function () {
-const searchInput = document.querySelector('.search-form input');
-const searchButton = document.getElementById('search-button');
-const attractionList = document.getElementById('attraction-list');
-
+    const searchInput = document.querySelector('.search-form input');
+    const searchButton = document.getElementById('search-button');
+    const attractionList = document.getElementById('attraction-list');
 let page = 0; 
 
 searchButton.addEventListener('click', () => {
@@ -251,7 +266,9 @@ searchButton.addEventListener('click', () => {
     .then((data) => {
     //   先清空
       attractionList.innerHTML = '';
-
+      if (data.results.length === 0) {
+        attractionList.textContent = '沒有找到任何景點。';
+      } else {
       data.data.forEach(attraction => {
         const div = document.createElement('div');
         div.className = 'titlepic';
@@ -286,12 +303,71 @@ searchButton.addEventListener('click', () => {
         // 將 div.titlepic 添加到景點列表中
         attractionList.appendChild(div);
       });
+    }
     })
     .catch((error) => {
       console.error('Error fetching data:', error);
     });
 });
 });
+
+// 處理list捷運站按鈕
+const leftButton = document.querySelector('.left-button');
+const rightButton = document.querySelector('.right-button');
+const stationList = document.querySelector('.list');
+const stationListBar = document.querySelector('.list-bar');
+const searchInput = document.querySelector('.search-form input');
+const searchButton = document.getElementById('search-button');
+let currrentINdex=0;
+fetch('/api/mrts')
+    .then(response => response.json())
+    .then((data)=>{
+        const mrtData = data.data;
+        console.log('mrt資料',mrtData);
+        mrtData.forEach((station)=>{
+            const stationItem = document.createElement('span');
+            stationItem.textContent = station;
+                  // 添加點擊事件監聽器
+      stationItem.addEventListener('click', () => {
+        const clickedStation = station;
+        // 填入捷運站名稱到搜尋框
+        searchInput.value = clickedStation;
+        searchButton.click();
+        // // 調用旅遊景點 API 並使用捷運站名稱進行搜尋
+        // fetch(`/api/attractions?page=0&keyword=${keyword}`)
+        //   .then(response => response.json())
+        //   .then((attractionData) => {
+        //     // 在這裡處理旅遊景點資料，例如顯示結果
+        //     console.log('搜尋結果：', attractionData);
+        //   })
+        //   .catch((error) => {
+        //     // 處理錯誤
+        //     console.error('搜尋景點時發生錯誤：', error);
+        //   });
+      });
+            stationList.appendChild(stationItem);
+        })
+    })
+    .catch((error) => {
+        // 處理錯誤
+        console.error('發生錯誤：', error);
+      });
+    
+leftButton.addEventListener('click', function() {
+    stationListBar.scrollTo({
+        left:-500,
+        behavior:"smooth",
+    })
+});
+
+rightButton.addEventListener('click', function() {
+    stationListBar.scrollTo({
+        left:windowWidth/2+windowWidth/3,
+        behavior:"smooth",
+    })
+});
+
+       
 
 
 //處理捷運站12站的按鈕

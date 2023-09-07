@@ -22,8 +22,9 @@ connection = mysql.connector.connect(**db_config)
 print(connection)
 
 app=Flask(__name__)
-app.config["JSON_AS_ASCII"]=False
-app.config["TEMPLATES_AUTO_RELOAD"]=True
+#好像會引起fetch有問題
+# app.config["JSON_AS_ASCII"]=False
+# app.config["TEMPLATES_AUTO_RELOAD"]=True
 
 # Pages
 @app.route("/")
