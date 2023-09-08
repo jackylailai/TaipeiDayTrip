@@ -356,28 +356,32 @@ window.addEventListener('resize',()=>{
     scrollDisance = calculateScrollDistance();
 })
 leftButton.addEventListener('click', function() {
-    let currentScroll = stationList.scrollLeft;//先抓住list最左邊的點
-    let movement = scrollDisance;
-    let targetScroll = currentScroll-movement;//剛開始最左邊-螢幕長度（list2/3）=等等要動的距離
+    // let currentScroll = stationList.scrollLeft;//先抓住list最左邊的點
+    // let movement = scrollDisance;
+    // let targetScroll = currentScroll-movement;//剛開始最左邊-螢幕長度（list2/3）=等等要動的距離
     console.log("左邊按鈕被點擊")
-    stationListBar.scrollTo({
-        left:targetScroll,
-        behavior:"smooth",
-    })
+    stationListBar.scrollLeft -=windowWidth * 2/3;
+    // stationListBar.scrollTo({
+    //     left:targetScroll,
+    //     behavior:"smooth",
+    // })
 });
 
 rightButton.addEventListener('click', function() {
-    let currentScroll = stationList.scrollLeft;//先抓住list最左邊的點
-    let movement = scrollDisance;
-    let targetScroll = currentScroll+movement;//剛開始最左邊+螢幕長度（list2/3）=等等要動的距離
+    // let currentScroll = stationList.scrollLeft;//先抓住list最左邊的點
+    // let movement = scrollDisance;
+    // let targetScroll2 = movement;//剛開始最左邊+螢幕長度（list2/3）=等等要動的距離
     console.log("右邊按鈕被點擊")
-    stationList.scrollLeft +=20;
-
-    stationList.scrollTo({
-        left: targetScroll,
-        behavior: "smooth",
-    });
+    stationListBar.scrollLeft +=windowWidth * 2/3;
+    // stationList.scrollBy
+    // stationListBar.scrollTo({
+    //     left: targetScroll2,
+    //     behavior: "smooth",
+    // });
 });
+// rightButton.addEventListener('click', () => {
+//     stationList.scrollLeft += 50; // Adjust the scroll amount as needed
+// });
 // rightbutton.onclick = () => {
 //     console.log("右邊按鈕被點擊")
 //     stationList.scrollLeft += 20;
