@@ -23,8 +23,8 @@ print(connection)
 
 app=Flask(__name__)
 #好像會引起fetch有問題
-# app.config["JSON_AS_ASCII"]=False
-# app.config["TEMPLATES_AUTO_RELOAD"]=True
+app.config["JSON_AS_ASCII"]=False
+app.config["TEMPLATES_AUTO_RELOAD"]=True
 
 # Pages
 @app.route("/")
@@ -43,6 +43,10 @@ def thankyou():
 def get_attractions():
     cursor=None
     try:
+        connection = mysql.connector.connect(**db_config)
+        # 建立游標
+        # cursor其實盡可能不要共用，因為同時開需求就會亂掉
+        print(connection)
         cursor = connection.cursor(dictionary=True)
         page = int(request.args.get("page", 0))
         keyword = request.args.get("keyword", "")
@@ -80,6 +84,10 @@ def get_attractions():
 def get_attraction(attractionId):
     cursor=None
     try:
+        connection = mysql.connector.connect(**db_config)
+        # 建立游標
+        # cursor其實盡可能不要共用，因為同時開需求就會亂掉
+        print(connection)
         cursor = connection.cursor(dictionary=True)
         query = "SELECT * FROM attractions WHERE id = %s"
         cursor.execute(query, (attractionId,))
@@ -122,6 +130,10 @@ def get_attraction(attractionId):
 def get_mrt_stations():
     cursor=None  
     try:
+        connection = mysql.connector.connect(**db_config)
+        # 建立游標
+        # cursor其實盡可能不要共用，因為同時開需求就會亂掉
+        print(connection)
         cursor = connection.cursor()
         query="SELECT MRT,COUNT(*) AS attractions_count FROM attractions GROUP BY MRT ORDER BY attractions_count DESC"
         cursor.execute(query)
@@ -130,7 +142,7 @@ def get_mrt_stations():
         response = {
             "data": mrt_list
         }
-        cursor.close()
+        
         return jsonify(response), 200
     except Exception as e:
         error_response = {

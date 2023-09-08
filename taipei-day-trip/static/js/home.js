@@ -266,8 +266,11 @@ searchButton.addEventListener('click', () => {
     .then((data) => {
     //   先清空
       attractionList.innerHTML = '';
-      if (data.results.length === 0) {
-        attractionList.textContent = '沒有找到任何景點。';
+      if (data.data.length === 0) {
+        console.log("沒找到景點進來判斷式")
+        alert('沒有找到任何景點。');
+        // attractionList.textContent = '沒有找到任何景點。';
+        // attractionList.appendChild(div);
       } else {
       data.data.forEach(attraction => {
         const div = document.createElement('div');
@@ -313,37 +316,33 @@ searchButton.addEventListener('click', () => {
 
 // 處理list捷運站按鈕
 const leftButton = document.querySelector('.left-button');
-const rightButton = document.querySelector('.right-button');
+const rightButton = document.getElementById('right-button');
 const stationList = document.querySelector('.list');
 const stationListBar = document.querySelector('.list-bar');
 const searchInput = document.querySelector('.search-form input');
 const searchButton = document.getElementById('search-button');
+let scrollDisance = calculateScrollDistance();
 let currrentINdex=0;
+
+function calculateScrollDistance(){
+    let stationListWidth = stationList.scrollWidth;
+    console.log("stationlistwidth:",stationListWidth)
+    return stationListWidth * 2/3;
+}
 fetch('/api/mrts')
     .then(response => response.json())
     .then((data)=>{
         const mrtData = data.data;
         console.log('mrt資料',mrtData);
         mrtData.forEach((station)=>{
-            const stationItem = document.createElement('span');
+            const stationItem = document.createElement('div');
             stationItem.textContent = station;
                   // 添加點擊事件監聽器
-      stationItem.addEventListener('click', () => {
+        stationItem.addEventListener('click', () => {
         const clickedStation = station;
         // 填入捷運站名稱到搜尋框
         searchInput.value = clickedStation;
         searchButton.click();
-        // // 調用旅遊景點 API 並使用捷運站名稱進行搜尋
-        // fetch(`/api/attractions?page=0&keyword=${keyword}`)
-        //   .then(response => response.json())
-        //   .then((attractionData) => {
-        //     // 在這裡處理旅遊景點資料，例如顯示結果
-        //     console.log('搜尋結果：', attractionData);
-        //   })
-        //   .catch((error) => {
-        //     // 處理錯誤
-        //     console.error('搜尋景點時發生錯誤：', error);
-        //   });
       });
             stationList.appendChild(stationItem);
         })
@@ -352,20 +351,37 @@ fetch('/api/mrts')
         // 處理錯誤
         console.error('發生錯誤：', error);
       });
-    
+      
+window.addEventListener('resize',()=>{
+    scrollDisance = calculateScrollDistance();
+})
 leftButton.addEventListener('click', function() {
+    let currentScroll = stationList.scrollLeft;//先抓住list最左邊的點
+    let movement = scrollDisance;
+    let targetScroll = currentScroll-movement;//剛開始最左邊-螢幕長度（list2/3）=等等要動的距離
+    console.log("左邊按鈕被點擊")
     stationListBar.scrollTo({
-        left:-500,
+        left:targetScroll,
         behavior:"smooth",
     })
 });
 
 rightButton.addEventListener('click', function() {
-    stationListBar.scrollTo({
-        left:windowWidth/2+windowWidth/3,
-        behavior:"smooth",
-    })
+    let currentScroll = stationList.scrollLeft;//先抓住list最左邊的點
+    let movement = scrollDisance;
+    let targetScroll = currentScroll+movement;//剛開始最左邊+螢幕長度（list2/3）=等等要動的距離
+    console.log("右邊按鈕被點擊")
+    stationList.scrollLeft +=20;
+
+    stationList.scrollTo({
+        left: targetScroll,
+        behavior: "smooth",
+    });
 });
+// rightbutton.onclick = () => {
+//     console.log("右邊按鈕被點擊")
+//     stationList.scrollLeft += 20;
+//   };
 
        
 

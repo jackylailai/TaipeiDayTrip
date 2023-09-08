@@ -86,9 +86,10 @@ body {
     height: 45px;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 10px;
+    border-radius: 5px 0 0 5px;
     margin: 0;
     text-indent: 10px;
+    box-shadow: 0px 0px 20px 0px #ABC;
     /* 這可以記起來！ */
 }
 /* .fa-search {
@@ -102,33 +103,58 @@ body {
     cursor: pointer;
     font-size: 20px;
   } */
-/* .search-button{
-    background-color:#448899;
-    color:red;
-    border:none;
-    box-sizing: border-box;
-    border-top-right-radius: 5px;
-} */
-#search-button {
+.search-button{
     width: 60px;
     height:49px;
+    background-color: #448899;
     color: #fff;
     border: none;
     cursor: pointer;
     border-radius: 10px;
 }
-
+#search-button {
+    width: 60px;
+    height:49px;
+    background-color: #448899;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+}
+.widthcontrol{
+ width:100%;  
+ display:flex; 
+ margin-top: 10px;
+}
 .list-bar {
     align-items: center;
     display: flex;
     justify-content: space-between;
-    overflow-x: scroll;
+    overflow-x:scroll;
+}
+.list div{
+    flex:auto;
 }
 .left-button{
+    width:20px;
+    height:20px;
+    padding:5px;
     cursor: pointer;
+    border-radius:50%;
+    border-color: lightgray;
+    border-width: 1px;
+    border-style: solid;
 }
-.right-button{
+#right-button{
+    border-radius:50%;
+    width:20px;
+    height:20px;
+    padding:5px;
     cursor: pointer;
+    border-color: lightgray;
+    border-width: 1px;
+    border-style: solid;
+    border-radius:50%;
 }
 
 /* .arrow-button {
@@ -145,9 +171,11 @@ body {
 }
 .list {
     display: flex;
-    gap: 30px;
+    gap: 10px;
+    white-space: nowrap;
+    text-indent: 15px;
 }
-.list span {
+.list div {
     cursor: pointer;
     white-space: nowrap; /* 不換行 */
   }
@@ -285,7 +313,11 @@ footer {
     .list-bar {
         width: 1200px;
     }
-
+    .widthcontrol{
+        width:1200px;  
+        display: flex; 
+        margin-top:10px;
+       }
     .listbar-center {
         display: flex;
         justify-content: center;
@@ -321,5 +353,10 @@ footer {
         bottom: 0;
         line-height: 50px;
     }
-
+    .list-bar {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        overflow-x:scroll;
+    }
 }
