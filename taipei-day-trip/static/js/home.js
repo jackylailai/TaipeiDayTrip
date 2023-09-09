@@ -64,12 +64,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const containerBottom = attractionList.getBoundingClientRect().bottom;
       const keyword = searchInput.value.trim();
 
-      if (containerBottom <= window.innerHeight + 10 && shouldFetchData && !isLoading) {
+      if (containerBottom <= window.innerHeight +10 && shouldFetchData && !isLoading) {
         isLoading = true; 
-
+        console.log("觸發下拉")
         fetch(`/api/attractions?page=${page + 1}&keyword=${keyword}`)
           .then((response) => response.json())
           .then((data) => {
+            let nextpage = data.nextPage;
             data.data.forEach(attraction => {
                 const div = document.createElement('div');
                 div.className = 'titlepic';
@@ -104,8 +105,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 // 將 div.titlepic 添加到景點列表中
                 attractionList.appendChild(div);
                 console.log(`page: ${page}, shouldFetchData: ${shouldFetchData}`);
+                
             });
-            if (page < 4) { 
+            console.log("nextpage",nextpage);
+            if (keyword==="" && nextpage !== null) { 
                 page++;
               } else {
                 shouldFetchData = false; 
