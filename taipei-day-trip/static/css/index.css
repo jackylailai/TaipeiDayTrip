@@ -229,6 +229,7 @@ body {
 }
 .titlepic img {
     width: 100%;
+    height:200px;
     margin-top: 20px;
     display: block;
     position: relative;

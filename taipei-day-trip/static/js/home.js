@@ -63,10 +63,16 @@ document.addEventListener("DOMContentLoaded", function () {
       const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
       const containerBottom = attractionList.getBoundingClientRect().bottom;
       const keyword = searchInput.value.trim();
-
-      if (containerBottom <= window.innerHeight +10 && shouldFetchData && !isLoading) {
+    //   console.log("偵測到下拉此時keyword是",keyword);
+    //   console.log("偵測到下拉此時shouldfetch是",shouldFetchData);
+    //   console.log("偵測到下拉此時isloading是",isLoading);
+    //   console.log("偵測到下拉此時page",page);
+      if(keyword!==""){
+        page=0;
+      }
+      if (containerBottom <= window.innerHeight +1 && shouldFetchData && !isLoading) {
         isLoading = true; 
-        console.log("觸發下拉")
+        console.log("進入判斷式 沒在loading 可以fetch 滾動大於")
         fetch(`/api/attractions?page=${page + 1}&keyword=${keyword}`)
           .then((response) => response.json())
           .then((data) => {
@@ -110,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("nextpage",nextpage);
             if (keyword==="" && nextpage !== null) { 
                 page++;
+                searchInput.value = "";
               } else {
                 shouldFetchData = false; 
               }
@@ -124,6 +131,100 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 //方法2：intersection的做法
+
+// 获取所需的DOM元素
+// const attractionList = document.getElementById('attraction-list');
+
+// let page = 0;
+// let shouldFetchData = true;
+// let isLoading = false;
+
+// // 创建IntersectionObserver选项
+// const options = {
+//   root: null, // 使用viewport作为根元素
+//   rootMargin: '0px',
+//   threshold: 0.1, // 当目标元素10%进入视口时触发回调
+// };
+
+// // 创建一个函数来处理加载更多数据
+// function loadMoreData() {
+//   if (shouldFetchData && !isLoading) {
+//     isLoading = true;
+//     console.log('触发下拉');
+//     let keyword = searchInput.value.trim();
+//     console.log("let keyword的時候keyword",keyword);
+//     fetch(`/api/attractions?page=${page + 1}&keyword=${keyword}`)
+//       .then((response) => response.json())
+//       .then((data) => {
+//         let nextpage = data.nextPage;
+//         data.data.forEach((attraction) => {
+//           const div = document.createElement('div');
+//           div.className = 'titlepic';
+
+//           // 创建和添加其他元素的逻辑...
+//           const img = document.createElement('img');
+//           img.src = attraction.images[0];
+//           img.className = 'image';
+
+//           const overlay = document.createElement('div');
+//           overlay.className = 'overlay';
+//           const name = document.createElement('p');
+//           name.textContent = attraction.name;
+
+//           const titleDiv = document.createElement('div');
+//           titleDiv.className = 'title';
+//           const mrt = document.createElement('p');
+//           mrt.textContent = attraction.mrt;
+
+//           const category = document.createElement('p');
+//           category.textContent = attraction.category;
+
+//           titleDiv.appendChild(mrt);
+//           titleDiv.appendChild(category);
+//           overlay.appendChild(name);
+
+//           div.appendChild(img);
+//           div.appendChild(overlay);
+//           div.appendChild(titleDiv);
+
+//           attractionList.appendChild(div);
+//         });
+
+//         console.log('nextpage186', nextpage);
+//         console.log("keyword187",keyword);
+//         if (keyword === "" && nextpage !== null) {
+//           console.log("page:即將執行++",page)
+//           page++;
+//           isLoading = false;
+//           // 继续加载更多数据
+//           loadMoreData();
+//           console.log("執行函數should 194",shouldFetchData);
+//           console.log("執行函數isloa",isLoading);
+//         } else {
+//           shouldFetchData = false;
+//         }
+//         isLoading = false;
+//       })
+//       .catch((error) => {
+//         console.error('Error fetching data:', error);
+//       });
+//   }
+// }
+
+// // 创建IntersectionObserver实例
+// const intersectionObserver = new IntersectionObserver((entries) => {
+//   entries.forEach((entry) => {
+//     if (entry.isIntersecting) {
+//       // 触发加载更多数据
+//       console.log("確認有沒有偵測到list變化");
+//       loadMoreData();
+//     }
+//   });
+// }, options);
+
+// // 开始观察attractionList元素
+// intersectionObserver.observe(attractionList);
+
 
 
 
