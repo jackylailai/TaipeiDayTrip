@@ -64,13 +64,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const containerBottom = attractionList.getBoundingClientRect().bottom;
       const keyword = searchInput.value.trim();
     //   console.log("偵測到下拉此時keyword是",keyword);
-    //   console.log("偵測到下拉此時shouldfetch是",shouldFetchData);
+      console.log("偵測到下拉此時shouldfetch是",shouldFetchData);
     //   console.log("偵測到下拉此時isloading是",isLoading);
     //   console.log("偵測到下拉此時page",page);
       if(keyword!==""){
         page=0;
+        console.log(`成功下滑進入 且keyword="${keyword}`);
       }
-      if (containerBottom <= window.innerHeight +1 && shouldFetchData && !isLoading) {
+      if (containerBottom <= window.innerHeight +5 && shouldFetchData && !isLoading) {
         isLoading = true; 
         console.log("進入判斷式 沒在loading 可以fetch 滾動大於")
         fetch(`/api/attractions?page=${page + 1}&keyword=${keyword}`)
@@ -117,6 +118,9 @@ document.addEventListener("DOMContentLoaded", function () {
             if (keyword==="" && nextpage !== null) { 
                 page++;
                 searchInput.value = "";
+                shouldFetchData=true;
+              } else if(nextpage !==null){
+                shouldFetchData=true;
               } else {
                 shouldFetchData = false; 
               }
@@ -363,7 +367,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchButton = document.getElementById('search-button');
     const attractionList = document.getElementById('attraction-list');
     let page = 0; 
-  
     searchButton.addEventListener('click', () => {
       fetchAttractions();
     });
@@ -417,6 +420,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
               // 將 div.titlepic 添加到景點列表中
               attractionList.appendChild(div);
+              shouldFetchData=true;//**********************非常重要
             });
           }
         })
