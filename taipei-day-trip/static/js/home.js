@@ -357,67 +357,75 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 //搜尋之後跳轉（可以執行）
+
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.querySelector('.search-form input');
     const searchButton = document.getElementById('search-button');
     const attractionList = document.getElementById('attraction-list');
-let page = 0; 
-
-searchButton.addEventListener('click', () => {
-  const keyword = searchInput.value.trim();
-
-  fetch(`/api/attractions?page=${page}&keyword=${keyword}`)
-    .then((response) => response.json())
-    .then((data) => {
-    //   先清空
-      attractionList.innerHTML = '';
-      if (data.data.length === 0) {
-        console.log("沒找到景點進來判斷式")
-        alert('沒有找到任何景點。');
-        // attractionList.textContent = '沒有找到任何景點。';
-        // attractionList.appendChild(div);
-      } else {
-      data.data.forEach(attraction => {
-        const div = document.createElement('div');
-        div.className = 'titlepic';
-
-        const img = document.createElement('img');
-        img.src = attraction.images[0];
-        img.className = 'image';
-
-        const overlay = document.createElement('div');
-        overlay.className = 'overlay';
-        const name = document.createElement('p');
-        name.textContent = attraction.name;
-
-        const titleDiv = document.createElement('div');
-        titleDiv.className = 'title';
-        const mrt = document.createElement('p');
-        mrt.textContent=attraction.mrt;
-
-        const category = document.createElement('p');
-        category.textContent = attraction.category;
-
-
-        // 將所有元素添加到 div.titlepic 中
-        titleDiv.appendChild(mrt);
-        titleDiv.appendChild(category);
-        overlay.appendChild(name);
-
-        div.appendChild(img);
-        div.appendChild(overlay);
-        div.appendChild(titleDiv);
-
-        // 將 div.titlepic 添加到景點列表中
-        attractionList.appendChild(div);
-      });
-    }
-    })
-    .catch((error) => {
-      console.error('Error fetching data:', error);
+    let page = 0; 
+  
+    searchButton.addEventListener('click', () => {
+      fetchAttractions();
     });
-});
-});
+  
+    document.querySelector('.search-form').addEventListener('submit', (e) => {
+      e.preventDefault(); // 阻止頁面
+      fetchAttractions();
+    });
+  
+    function fetchAttractions() {
+      const keyword = searchInput.value.trim();
+  
+      fetch(`/api/attractions?page=${page}&keyword=${keyword}`)
+        .then((response) => response.json())
+        .then((data) => {
+          // 先清空
+          attractionList.innerHTML = '';
+          if (data.data.length === 0) {
+            console.log("沒找到景點進來判斷式")
+            alert('沒有找到任何景點。');
+          } else {
+            data.data.forEach(attraction => {
+              const div = document.createElement('div');
+              div.className = 'titlepic';
+  
+              const img = document.createElement('img');
+              img.src = attraction.images[0];
+              img.className = 'image';
+  
+              const overlay = document.createElement('div');
+              overlay.className = 'overlay';
+              const name = document.createElement('p');
+              name.textContent = attraction.name;
+  
+              const titleDiv = document.createElement('div');
+              titleDiv.className = 'title';
+              const mrt = document.createElement('p');
+              mrt.textContent = attraction.mrt;
+  
+              const category = document.createElement('p');
+              category.textContent = attraction.category;
+  
+              // 將所有元素添加到 div.titlepic 中
+              titleDiv.appendChild(mrt);
+              titleDiv.appendChild(category);
+              overlay.appendChild(name);
+  
+              div.appendChild(img);
+              div.appendChild(overlay);
+              div.appendChild(titleDiv);
+  
+              // 將 div.titlepic 添加到景點列表中
+              attractionList.appendChild(div);
+            });
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    }
+  });
+  
 
 // 處理list捷運站按鈕
 const leftButton = document.querySelector('.left-button');
