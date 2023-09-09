@@ -62,11 +62,12 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener('scroll', () => {
       const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
       const containerBottom = attractionList.getBoundingClientRect().bottom;
-        
+      const keyword = searchInput.value.trim();
+
       if (containerBottom <= window.innerHeight + 10 && shouldFetchData && !isLoading) {
         isLoading = true; 
 
-        fetch(`/api/attractions?page=${page + 1}`)
+        fetch(`/api/attractions?page=${page + 1}&keyword=${keyword}`)
           .then((response) => response.json())
           .then((data) => {
             data.data.forEach(attraction => {
