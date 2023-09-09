@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taipei Trip index</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> -->
+</head>
+
+<body>
+    <div class="topcenter">
+
+        <div class="top">
+            <div class="left-div">
+                台北一日遊
+            </div>
+            <div class="right-div">
+                <div>預定行程</div>
+                <div>登入/註冊</div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-center">
+        <div class="hero-section">
+            <div class="hero-region">
+                <div class="hero-text">
+                    <h2>輕鬆享受台北一日悠閒</h2>
+                    <p>探索每個角落，體驗城市的深度旅遊行程</p>
+                </div>
+                <div class="search">
+                    <form class="search-form">
+                        <input type="text" placeholder="輸入景點名稱查詢">
+                        <!-- <img src="{{ url_for('static', filename='images/scope.png') }}" alt="" id="search-button"> -->
+                        <img src="{{ url_for('static', filename='images/btn.svg') }}" alt="" id="search-button">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="listbar-center">
+        <div class="widthcontrol">
+        <div>
+        <img src="{{ url_for('static', filename='images/leftarrow.svg') }}" alt="" class="left-button">
+        </div>
+        <div class="list-bar">
+            <!-- <button class="arrow-button left-button">←</button> -->
+                <!-- <img src="{{ url_for('static', filename='images/left_arrow.png') }}" alt="" class="left-button"> -->
+            <div class="list">
+            </div>
+                <!-- <img src="{{ url_for('static', filename='images/right_arrow.png') }}" alt="" class="left-button"> -->
+            <!-- <button class="arrow-button right-button">→</button> -->
+        </div>
+        <div>
+        <img src="{{ url_for('static', filename='images/rightarrow.svg') }}" alt="" id="right-button">
+        </div>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <div class="content">
+            <div class="content2" id="attraction-list">
+            </div>
+        </div>
+    </div>
+    <footer id="footer-id">
+        <p>COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
+</body>
+<script src="{{ url_for("static", filename="js/home.js" ) }}"></script>
+</html>
+
+
+
+
+<!-- <script src="https://kit.fontawesome.com/5ffbd77886.js" crossorigin="anonymous"></script> -->

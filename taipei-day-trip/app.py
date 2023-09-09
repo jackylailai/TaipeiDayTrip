@@ -22,6 +22,7 @@ connection = mysql.connector.connect(**db_config)
 print(connection)
 
 app=Flask(__name__)
+#好像會引起fetch有問題
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 
@@ -40,7 +41,12 @@ def thankyou():
 	return render_template("thankyou.html")
 @app.route("/api/attractions", methods=["GET"])
 def get_attractions():
+    cursor=None
     try:
+        connection = mysql.connector.connect(**db_config)
+        # 建立游標
+        # cursor其實盡可能不要共用，因為同時開需求就會亂掉
+        print(connection)
         cursor = connection.cursor(dictionary=True)
         page = int(request.args.get("page", 0))
         keyword = request.args.get("keyword", "")
@@ -72,10 +78,16 @@ def get_attractions():
         }
         return jsonify(error_response), 500
     finally:
-          cursor.close()
+        if cursor:
+            cursor.close()
 @app.route("/api/attraction/<int:attractionId>", methods=["GET"])
 def get_attraction(attractionId):
+    cursor=None
     try:
+        connection = mysql.connector.connect(**db_config)
+        # 建立游標
+        # cursor其實盡可能不要共用，因為同時開需求就會亂掉
+        print(connection)
         cursor = connection.cursor(dictionary=True)
         query = "SELECT * FROM attractions WHERE id = %s"
         cursor.execute(query, (attractionId,))
@@ -112,29 +124,34 @@ def get_attraction(attractionId):
         }
         return jsonify(error_response), 500
     finally:
-        cursor.close()
-
+        if cursor:
+            cursor.close()
 @app.route("/api/mrts", methods=["GET"])
 def get_mrt_stations():
-	try:
-		cursor = connection.cursor()
-		query="SELECT MRT,COUNT(*) AS attractions_count FROM attractions GROUP BY MRT ORDER BY attractions_count DESC"
-		cursor.execute(query)
-		results = cursor.fetchall()
-		mrt_list = [result[0] for result in results]
-		response = {
+    cursor=None  
+    try:
+        connection = mysql.connector.connect(**db_config)
+        # 建立游標
+        # cursor其實盡可能不要共用，因為同時開需求就會亂掉
+        print(connection)
+        cursor = connection.cursor()
+        query="SELECT MRT,COUNT(*) AS attractions_count FROM attractions GROUP BY MRT ORDER BY attractions_count DESC"
+        cursor.execute(query)
+        results = cursor.fetchall()
+        mrt_list = [result[0] for result in results]
+        response = {
             "data": mrt_list
         }
-		cursor.close()
-		return jsonify(response), 200
-	
-	except Exception as e:
-		error_response = {
+        
+        return jsonify(response), 200
+    except Exception as e:
+        error_response = {
             "error": True,
             "message": str(e)
-		}
-		return jsonify(error_response), 500
-	finally:
-		cursor.close()
+        }
+        return jsonify(error_response), 500
+    finally:
+        if cursor:
+            cursor.close()
 app.debug = True
 app.run(host="0.0.0.0", port=3000)
