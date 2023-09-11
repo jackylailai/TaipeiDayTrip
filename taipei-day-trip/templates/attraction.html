@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taipei Trip index</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/attraction.css') }}">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> -->
+</head>
+
+<body>
+    <div class="topcenter">
+
+        <div class="top">
+            <div class="left-div">
+                台北一日遊
+            </div>
+            <div class="right-div">
+                <div>預定行程</div>
+                <div>登入/註冊</div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="container">
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='images/example.jpg') }}" alt="" class="image">
+                <div class="left-arrow">
+                    <img src="{{ url_for('static', filename='images/leftbutton.svg') }}" alt="" class="left-button">
+                </div>
+                <div class="right-arrow">
+                    <img src="{{ url_for('static', filename='images/rightbutton.svg') }}" alt="" class="right-button">
+                </div>
+            </div>
+            <div class="tourment">
+                <div class="title"></div>
+                <div class="mrt"></div>
+                <div class="reservation">
+                    <div class="reservation-title">
+                        平安鐘
+                    </div>
+                    <div class="reservation-subtitle">
+                        公共藝術 at 忠孝復興
+                    </div>
+                    <div class="reservation-content">
+                        <div class="reservation-description">
+                            訂購導覽行程
+                        </div>
+                        <div class="reservation-description2">
+                            以此景點為中心的一日行程，帶您探索城市角落故事
+                        </div>
+                        <div class="reservation-date">
+                            選擇日期：HTML日期
+                        </div>
+                        <div class="reservation-time">
+                            選擇時間：JS
+                        </div>
+                        <div class="reservation-fare">
+                            導覽費用：新台幣2000元
+                        </div>
+                        <div class="reservation-button">
+                            開始預約行程
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        </div>
+    </div>
+
+    <div class="wrapper2">
+        <div class="content">
+            </div>
+        </div>
+    </div>
+    <footer id="footer-id">
+        <p>COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
+</body>
+<script src="{{ url_for("static", filename="js/attraction.js" ) }}"></script>
+</html>

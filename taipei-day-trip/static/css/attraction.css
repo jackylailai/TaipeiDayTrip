@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,500&display=swap&subset=chinese-traditional');
+body {
+    font-family: "Noto Sans TC", "Microsoft Yahei", "微軟雅黑", sans-serif;
+}
+.topcenter {
+    display: flex;
+    justify-content: center;
+}
+.top {
+    text-indent: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 54px;
+    width: 100%;
+}
+
+.left-div {
+    font-size: 30px;
+    color: #448899;
+    font-weight: bold;
+}
+
+.right-div {
+    display: flex;
+    color: #666666;
+    font-size: 16px;
+    column-gap: 10px;
+}
+
+.right-div> :last-child {
+    margin-right: 10px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+}
+.image-container {
+    position: relative;
+    display: inline-block;
+    margin-top: 0;
+}
+.image{
+    width: 100%;
+    height: 350px;
+    margin-top: 20px;
+    display: block;
+    position: relative;
+    border-top: 0.5px solid #ccc;
+    border-color: lightgray;
+    border-width: 0.5px;
+    border-style: solid;
+    border-radius: 5px 5px 5px 5px;
+    object-fit: cover;
+    object-position: center;
+    background-size: 100% 100%;
+}
+.left-button {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    border-radius:50%;
+    width:36px;
+    height:36px;
+    padding:5px;
+    cursor: pointer;
+}
+
+.right-button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    border-radius:50%;
+    width:36px;
+    height:36px;
+    padding:5px;
+    cursor: pointer;
+}
+.wrapper2{
+
+}
+@media screen and (min-width: 1200px) {
+    .top {
+        width: 1200px;
+        justify-content: center;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .container{
+        display:flex; 
+        width:1200px; 
+        justify-content: space-between;
+        height: 400px;
+    }
+    .image{
+        width: 540px;
+        height:400px;
+        margin: 0;
+    }
+    .reservation-content{
+        width:600px;
+        height:400px;
+    }
+    footer {
+        position: absolute;
+        font-size: 16px;
+        background-color: #757575;
+        color: #ffff;
+        height: 105px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+        left: 0;
+        bottom: 0;
+        line-height: 50px;
+    }
+}
