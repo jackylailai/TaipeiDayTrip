@@ -31,7 +31,9 @@ body {
 .right-div> :last-child {
     margin-right: 10px;
 }
-
+.upperhr {
+    display: none;
+}
 .wrapper {
     display: flex;
     justify-content: center;
@@ -44,7 +46,6 @@ body {
 .image{
     width: 100%;
     height: 350px;
-    margin-top: 20px;
     display: block;
     position: relative;
     border-top: 0.5px solid #ccc;
@@ -84,12 +85,154 @@ body {
 .wrapper2{
 
 }
+.tourment{
+    padding: 10px;
+    margin-bottom:30px;
+}
+.reservation{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    letter-spacing: 1px;
+}
+.reservation-title{
+    color:#666666;
+    font-size:24px;
+    font-weight: 900;
+}
+.reservation-subtitle{
+    color:#666666;
+}
+.reservation-content{
+    background-color: #E8E8E8;
+    color:#666666;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 20px;
+}
+.reservation-tour{
+    color:#666666;
+    font-size: 16px;
+    font-weight: 900;
+}
+.reservation-description{
+    font-size: 16px;
+    color:#666666;
+    font-weight: 100;
+    opacity: 0.8;
+}
+.reservation-date{
+    color:#666666;
+    font-size: 16px;
+    display:flex;
+    align-items: center;
+}
+.date-title{
+    font-weight: 900;
+}
+.date{
+    width:190px;
+    height:35px;
+    display:flex;
+    background-color:#FFFFFF;
+    justify-content: space-between;
+    align-items: center;
+}
+.calendar{
+    width:24px;
+    height:24px;
+}
+.reservation-time{
+    display:flex;
+    color:#666666;
+}
+.time-title{
+    font-weight: 900;
+}
+.reservation-fare{
+    color:#666666;
+    font-size: 16px;
+    display:flex;
+}
+.fare-title{
+    font-weight: 900;
+}
+.reservation-button{
+    color:#FFFFFF;
+    font-size: 19px;
+    background-color: #448899;
+    height:35px;
+    padding:10px 20px 10px 20px;
+    border-radius:5px;
+    display: flex;
+    align-items: center;
+}
+.lowerhr{
+    font-size: 1px;
+    color:#E8E8E8;
+}
+.content{
+    padding:20px;
+    color:#666666;
+    font-size:16px;
+    margin-top:30px;
+    display:flex;
+    row-gap: 10px;
+    flex-direction: column;
+    letter-spacing: 1px;
+    line-height: 24px;
+}
+.description{
+    opacity: 0.8;
+    display:flex;
+    row-gap:10px;
+    flex-direction: row;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    line-height: 24px;
+}
+.address-title{
+    font-weight:bold;
+    margin-top: 10px;
+}
+.address{
+    opacity: 0.8;
+}
+.transportation-title{
+    font-weight:bold;
+    margin-top: 20px;
+}
+.transportation{
+    margin-bottom:100px;
+    opacity: 0.8;
+}
+footer {
+    position: absolute;
+    font-size: 16px;
+    background-color: #757575;
+    color: #ffff;
+    height: 105px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    line-height: 50px;
+}
 @media screen and (min-width: 1200px) {
     .top {
         width: 1200px;
         justify-content: center;
         justify-content: space-between;
         align-items: center;
+    }
+    .upperhr{
+        display: block;
+        color:#FFFFFF;
+        margin-bottom:30px;
     }
     .container{
         display:flex; 
@@ -104,10 +247,19 @@ body {
     }
     .reservation-content{
         width:600px;
-        height:400px;
+        height:260px;
+    }
+    .wrapper2{
+        display:flex;
+        justify-content: center;
+    }
+    .content{
+        width:1200px;
+    }
+    .container{
+        margin-bottom: 40px;
     }
     footer {
-        position: absolute;
         font-size: 16px;
         background-color: #757575;
         color: #ffff;
@@ -115,9 +267,12 @@ body {
         margin: 0 auto;
         text-align: center;
         padding: 10px;
-        position: relative;
         left: 0;
         bottom: 0;
+        position: relative;
         line-height: 50px;
+        display:flex;
+        justify-content: center;
+        align-items: center;
     }
 }

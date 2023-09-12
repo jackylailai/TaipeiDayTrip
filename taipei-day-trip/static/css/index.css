@@ -387,6 +387,9 @@ footer {
         left: 0;
         bottom: 0;
         line-height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .list-bar {
         align-items: center;
