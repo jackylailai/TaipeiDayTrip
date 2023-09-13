@@ -15,7 +15,7 @@
     <div class="topcenter">
 
         <div class="top">
-            <div class="left-div">
+            <div class="left-div" >
                 台北一日遊
             </div>
             <div class="right-div">
@@ -27,13 +27,19 @@
     <hr class="upperhr">
     <div class="wrapper">
         <div class="container">
-            <div class="image-container">
-                <img src="{{ url_for('static', filename='images/example.jpg') }}" alt="" class="image">
+            <div class="images-container">
+                <!-- <img src="{{ url_for('static', filename='images/example.jpg') }}" alt="" class="image"> -->
+                <div class="image-container"></div>
                 <div class="left-arrow">
                     <img src="{{ url_for('static', filename='images/leftbutton.svg') }}" alt="" class="left-button">
                 </div>
                 <div class="right-arrow">
                     <img src="{{ url_for('static', filename='images/rightbutton.svg') }}" alt="" class="right-button">
+                </div>
+                <div class="image-buttons">
+                    <div class="image-dot"></div>
+                    <div class="image-dot"></div>
+                    <div class="image-dot"></div>
                 </div>
             </div>
             <div class="tourment">
@@ -41,10 +47,10 @@
                 <div class="mrt"></div>
                 <div class="reservation">
                     <div class="reservation-title">
-                        <h2>平安鐘</h2>
+                        <!-- <h2>平安鐘</h2> -->
                     </div>
                     <div class="reservation-subtitle">
-                        公共藝術 at 忠孝復興
+                        <!-- 公共藝術 at 忠孝復興 -->
                     </div>
                     <div class="reservation-content">
                         <div class="reservation-tour">
@@ -62,7 +68,9 @@
                         </div>
                         <div class="reservation-time">
                             <div class="time-title">選擇時間：</div>
+                            <div class="morning-btn" id="morning-btn"></div>
                             <div class="time-morning">上半天</div>
+                            <div class="afternoon-btn" id="afternoon-btn"></div>
                             <div class="time-afternoon">下半天</div>
                         </div>
                         <div class="reservation-fare">

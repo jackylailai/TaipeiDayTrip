@@ -19,6 +19,7 @@ body {
     font-size: 30px;
     color: #448899;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .right-div {
@@ -38,7 +39,7 @@ body {
     display: flex;
     justify-content: center;
 }
-.image-container {
+.images-container {
     position: relative;
     display: inline-block;
     margin-top: 0;
@@ -82,8 +83,26 @@ body {
     padding:5px;
     cursor: pointer;
 }
-.wrapper2{
-
+.image-buttons{
+    display:flex;
+}
+.image-dot{
+    width: 10px;
+    height: 10px;
+    background-color: transparent;
+    border: 0.5px solid #FFF;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+}
+.image-dot.active {
+    background-color: #000;
 }
 .tourment{
     padding: 10px;
@@ -144,9 +163,31 @@ body {
     width:24px;
     height:24px;
 }
+.morning-btn{
+    border:50%;
+    border-radius: 50%;
+    background-color: #448899;
+    width: 18px;
+    height: 18px;
+    border-color: #FFFF;
+    border-width: 2px;
+    border-style:solid;
+}
+.afternoon-btn{
+    border:50%;
+    border-radius: 50%;
+    background-color: #FFFF;
+    width: 18px;
+    height: 18px;
+    border-color: #FFFF;
+    border-width: 2px;
+    border-style:solid;
+}
 .reservation-time{
     display:flex;
     color:#666666;
+    column-gap: 5px;
+    align-items: center;
 }
 .time-title{
     font-weight: 900;
@@ -221,6 +262,17 @@ footer {
     left: 0;
     bottom: 0;
     line-height: 50px;
+}
+@media screen and (min-width: 600px) and (max-width: 1200px){
+    .container{
+        width:80%
+    }
+    .images-container{
+        width:100%;
+    }
+    .image{
+        height:100%;
+    }
 }
 @media screen and (min-width: 1200px) {
     .top {

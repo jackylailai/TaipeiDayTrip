@@ -18,6 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 const img = document.createElement('img');
                 img.src = attraction.images[0];
                 img.className = 'image';
+                const hrefTag = document.createElement('a');
+                hrefTag.setAttribute('href', `/attraction/${attraction.id}`);
+                hrefTag.appendChild(img);
 
                 const overlay = document.createElement('div');
                 overlay.className = 'overlay';
@@ -38,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 titleDiv.appendChild(category);
                 overlay.appendChild(name);
 
-                div.appendChild(img);
+                div.appendChild(hrefTag);
                 div.appendChild(overlay);
                 div.appendChild(titleDiv);
 
@@ -81,11 +84,14 @@ document.addEventListener("DOMContentLoaded", function () {
             data.data.forEach(attraction => {
                 const div = document.createElement('div');
                 div.className = 'titlepic';
-
+                //圖片部分網路上看到，也可研究function處理
                 const img = document.createElement('img');
                 img.src = attraction.images[0];
                 img.className = 'image';
-
+                const hrefTag = document.createElement('a');
+                hrefTag.setAttribute('href', `/attraction/${attraction.id}`);
+                hrefTag.appendChild(img);
+                
                 const overlay = document.createElement('div');
                 overlay.className = 'overlay';
                 const name = document.createElement('p');
@@ -105,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 titleDiv.appendChild(category);
                 overlay.appendChild(name);
 
-                div.appendChild(img);
+                div.appendChild(hrefTag);
                 div.appendChild(overlay);
                 div.appendChild(titleDiv);
 
@@ -395,7 +401,10 @@ document.addEventListener("DOMContentLoaded", function () {
               const img = document.createElement('img');
               img.src = attraction.images[0];
               img.className = 'image';
-  
+              const hrefTag = document.createElement('a');
+              hrefTag.setAttribute('href', `/attraction/${attraction.id}`);
+              hrefTag.appendChild(img);
+
               const overlay = document.createElement('div');
               overlay.className = 'overlay';
               const name = document.createElement('p');
@@ -414,7 +423,7 @@ document.addEventListener("DOMContentLoaded", function () {
               titleDiv.appendChild(category);
               overlay.appendChild(name);
   
-              div.appendChild(img);
+              div.appendChild(hrefTag);
               div.appendChild(overlay);
               div.appendChild(titleDiv);
   
