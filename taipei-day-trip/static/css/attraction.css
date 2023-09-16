@@ -120,7 +120,6 @@ body {
     border-radius: 50%;
     display: inline-block;
     margin-right: 5px;
-    cursor: pointer;
     transform: translateX(-50%);
     color: white;
     opacity:0.8;
@@ -173,18 +172,38 @@ body {
     font-weight: 900;
 }
 .date{
-    width:190px;
-    height:35px;
-    display:flex;
-    background-color:#FFFFFF;
+    width: 170px;
+    height: 25px;
+    display: flex;
+    background-color: #FFFFFF;
     justify-content: space-between;
     align-items: center;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .date input {
     border: none; /* 移除輸入框的邊框 */
     outline: none; /* 移除點擊時的輪廓 */
-    padding: 8px; 
+    width: 170px;
 }
+input[type="date"]::-webkit-calendar-picker-indicator {
+    width: 24px; 
+    height: 24px; 
+}
+/* input[type="date"]::-webkit-calendar-picker-indicator { */
+    /* display: none; */
+    /* opacity: 0; */
+/* } */
+/* .date::after {
+    content: " ";
+    display: inline-block;
+    width: 24px; 
+    height: 24px;
+    background-image: url('{{ url_for('static', filename='images/icon_calendar.svg') }}'); /* 添加自定义图标的URL */
+    background-size:cover ; /* 让图标充满伪元素 */
+    cursor: pointer; /* 鼠标指针变成手型，表示可点击 */
+} */
 .calendar{
     width:24px;
     height:24px;
@@ -198,7 +217,7 @@ body {
     border-color: #FFFF;
     border-width: 2px;
     border-style:solid;
-
+    cursor: pointer;
 }
 .afternoon-btn{
     border:50%;
@@ -209,6 +228,7 @@ body {
     border-color: #FFFF;
     border-width: 2px;
     border-style:solid;
+    cursor: pointer;
 }
 .reservation-time{
     display:flex;

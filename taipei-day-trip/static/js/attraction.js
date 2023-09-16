@@ -66,6 +66,21 @@ async function fetchData() {
 // });
 // }
 // let imagelist=[];
+
+//處理日期
+// const dateInput = document.querySelector('input[type="date"]');
+// console.log("抓到dateinput",dateInput)
+
+// const dateIcon = document.querySelector('.calendar');
+// console.log("抓icon",dateIcon);
+
+// dateIcon.addEventListener('click', function() {
+//     console.log("偵測點擊日期")
+//     dateInput.click();
+//     // dateInput.focus();
+// });
+
+
 function displayAttractionInfo(data) {
     const imageContainer = document.querySelector('.image-container');
     const tourment = document.querySelector('.tourment');
