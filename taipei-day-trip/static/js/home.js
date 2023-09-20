@@ -430,11 +430,13 @@ async function checkTokenValidity() {
             'Authorization': token
           }
         });
-
-        if (response.ok) {
+        const responseData = await response.json(); 
+        console.log("responsedata.data",responseData.data);
+        if (responseData.data !== null) {
             document.getElementById('showLoginForm').style.display = 'none';
             document.getElementById('logout').style.display = 'block';
-            console.log("成功登入")
+            console.log("成功登入");
+            console.log(responseData.data);
         } else {
             console.log("token有問題或無效")
         }
@@ -452,9 +454,10 @@ async function checkTokenValidity() {
   let logoutText = document.getElementById('logout');
   let loginText = document.getElementById('showLoginForm');
   logoutText.addEventListener('click', () => {
-    logoutText.style.display = 'none';
-    loginText.style.display = 'block';
+    // logoutText.style.display = 'none';
+    // loginText.style.display = 'block';
     localStorage.removeItem('token');
+    location.reload(true);
   });
   window.addEventListener('load', () => {
     checkTokenValidity();

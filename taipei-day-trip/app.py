@@ -177,7 +177,7 @@ def register_user():
 
         if existing_user:
             connection.close()
-            return jsonify({"error": True, "message": "重複的 Email 或其他原因"}), 400
+            return jsonify({"error": True, "message": "重複的 Email "}), 400
 
         cursor.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
                        (name, email, password))
@@ -251,7 +251,7 @@ def login_user():
             print("token_byte",token_bytes)
             return jsonify({"token": token_bytes.decode('utf-8')})
         else:
-            return jsonify({"error": True, "message": "登入失敗，帳號或密碼錯誤或其他原因"}), 400
+            return jsonify({"error": True, "message": "登入失敗，Email或密碼錯誤"}), 400
     except Exception as e:
         return jsonify({"error": True, "message": str(e)}), 500
     finally:
