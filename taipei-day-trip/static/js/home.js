@@ -142,228 +142,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //方法2：intersection的做法
 
-// 获取所需的DOM元素
-// const attractionList = document.getElementById('attraction-list');
-
-// let page = 0;
-// let shouldFetchData = true;
-// let isLoading = false;
-
-// // 创建IntersectionObserver选项
-// const options = {
-//   root: null, // 使用viewport作为根元素
-//   rootMargin: '0px',
-//   threshold: 0.1, // 当目标元素10%进入视口时触发回调
-// };
-
-// // 创建一个函数来处理加载更多数据
-// function loadMoreData() {
-//   if (shouldFetchData && !isLoading) {
-//     isLoading = true;
-//     console.log('触发下拉');
-//     let keyword = searchInput.value.trim();
-//     console.log("let keyword的時候keyword",keyword);
-//     fetch(`/api/attractions?page=${page + 1}&keyword=${keyword}`)
-//       .then((response) => response.json())
-//       .then((data) => {
-//         let nextpage = data.nextPage;
-//         data.data.forEach((attraction) => {
-//           const div = document.createElement('div');
-//           div.className = 'titlepic';
-
-//           // 创建和添加其他元素的逻辑...
-//           const img = document.createElement('img');
-//           img.src = attraction.images[0];
-//           img.className = 'image';
-
-//           const overlay = document.createElement('div');
-//           overlay.className = 'overlay';
-//           const name = document.createElement('p');
-//           name.textContent = attraction.name;
-
-//           const titleDiv = document.createElement('div');
-//           titleDiv.className = 'title';
-//           const mrt = document.createElement('p');
-//           mrt.textContent = attraction.mrt;
-
-//           const category = document.createElement('p');
-//           category.textContent = attraction.category;
-
-//           titleDiv.appendChild(mrt);
-//           titleDiv.appendChild(category);
-//           overlay.appendChild(name);
-
-//           div.appendChild(img);
-//           div.appendChild(overlay);
-//           div.appendChild(titleDiv);
-
-//           attractionList.appendChild(div);
-//         });
-
-//         console.log('nextpage186', nextpage);
-//         console.log("keyword187",keyword);
-//         if (keyword === "" && nextpage !== null) {
-//           console.log("page:即將執行++",page)
-//           page++;
-//           isLoading = false;
-//           // 继续加载更多数据
-//           loadMoreData();
-//           console.log("執行函數should 194",shouldFetchData);
-//           console.log("執行函數isloa",isLoading);
-//         } else {
-//           shouldFetchData = false;
-//         }
-//         isLoading = false;
-//       })
-//       .catch((error) => {
-//         console.error('Error fetching data:', error);
-//       });
-//   }
-// }
-
-// // 创建IntersectionObserver实例
-// const intersectionObserver = new IntersectionObserver((entries) => {
-//   entries.forEach((entry) => {
-//     if (entry.isIntersecting) {
-//       // 触发加载更多数据
-//       console.log("確認有沒有偵測到list變化");
-//       loadMoreData();
-//     }
-//   });
-// }, options);
-
-// // 开始观察attractionList元素
-// intersectionObserver.observe(attractionList);
 
 
-
-
-    // const footer = document.getElementById('footer-id');
-
-    // let page = 0; 
-    // //需創建intersectionobserver實例
-    // const observer = new IntersectionObserver((entries) => {
-    // //footer進入觸發
-    //   if (entries[0].isIntersecting) {
-    //     const attractionList = document.getElementById('attraction-list');
-    //     console.log("進入Footer");
-    //     fetch(`/api/attractions?page=${page + 1}`)
-    //       .then((response) => response.json())
-    //       .then((data) => {
-           
-    //         data.data.forEach(attraction => {
-    //             const div = document.createElement('div');
-    //             div.className = 'titlepic';
-
-    //             const img = document.createElement('img');
-    //             img.src = attraction.images[0];
-    //             img.className = 'image';
-
-    //             const overlay = document.createElement('div');
-    //             overlay.className = 'overlay';
-    //             const name = document.createElement('p');
-    //             name.textContent = attraction.name;
-
-    //             const titleDiv = document.createElement('div');
-    //             titleDiv.className = 'title';
-    //             const mrt = document.createElement('p');
-    //             mrt.textContent=attraction.mrt;
-
-    //             const category = document.createElement('p');
-    //             category.textContent = attraction.category;
-
-
-    //             // 將所有元素添加到 div.titlepic 中
-    //             titleDiv.appendChild(mrt);
-    //             titleDiv.appendChild(category);
-    //             overlay.appendChild(name);
-
-    //             div.appendChild(img);
-    //             div.appendChild(overlay);
-    //             div.appendChild(titleDiv);
-
-    //             attractionList.appendChild(div);
-    //       })
-    //     })
-    //       .catch((error) => {
-    //         console.error('Error fetching data:', error);
-    //       });
-    //   }
-    // });
-
-    // observer.observe(footer);
-    
-
-//方法3 暫時用來處理下拉還在研究其他的    
-
-//     let isLoading = false; 
-//     let nextPage = null; 
-
-// function loadAttractions() {
-
-//     if (isLoading) {
-//         return;
-//     }
-
-//     if (nextPage === null) {
-//         return;
-//     }
-    
-//     isLoading = true;
-//     fetch(`/api/attractions?page=${nextPage}`)
-//         .then(response => response.json())
-//         .then(data => {
-//             nextPage = data.nextPage;
-
-//             const attractions = data.data;
-//             const attractionsList = document.getElementById("attractionsList");
-
-//             attractions.forEach(attraction => {
-//                 const div = document.createElement('div');
-//                 div.className = 'titlepic';
-
-//                 const img = document.createElement('img');
-//                 img.src = attraction.images[0];
-//                 img.className = 'image';
-
-//                 const overlay = document.createElement('div');
-//                 overlay.className = 'overlay';
-//                 overlay.textContent = attraction.name;
-
-//                 const titleDiv = document.createElement('div');
-//                 titleDiv.className = 'title';
-//                 titleDiv.textContent = attraction.mrt;
-
-//                 const category = document.createElement('p');
-//                 category.textContent = attraction.category;
-
-//                 titleDiv.appendChild(category);
-
-//                 div.appendChild(img);
-//                 div.appendChild(overlay);
-//                 div.appendChild(titleDiv);
-
-//                 attractionsList.appendChild(div);
-//             });
-
-//             isLoading = false;
-//         })
-//         .catch(error => {
-//             console.error("Error loading attractions:", error);
-
-//             isLoading = false;
-//         });
-// }
-
-// loadAttractions();
-
-// window.addEventListener("scroll", () => {
-//     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-//         loadAttractions(); 
-//     }
-// });
-
-// });
 
 
 //搜尋之後跳轉（可以執行）
@@ -505,66 +285,177 @@ rightButton.addEventListener('click', function() {
     //     behavior: "smooth",
     // });
 });
-// rightButton.addEventListener('click', () => {
-//     stationList.scrollLeft += 50; // Adjust the scroll amount as needed
-// });
-// rightbutton.onclick = () => {
-//     console.log("右邊按鈕被點擊")
-//     stationList.scrollLeft += 20;
-//   };
 
-       
+const messageContainer = document.getElementById('messageContainer');
+const messageElement = document.createElement('div');
+//處理登入內容
+document.addEventListener("DOMContentLoaded", function() {
+document.getElementById('showLoginForm').addEventListener('click', () => {
+    document.getElementById('loginModal').style.display = 'flex';
+  });
+  let signupLink = document.querySelector(".signuptitle");
+  let signupForm = document.getElementById("signupModal");
+  let loginForm = document.getElementById("loginModal");
+  console.log("signuplink",signupLink);
+    signupLink.addEventListener("click", function() {
+    if (signupForm.style.display === "none" || signupForm.style.display === "") {
+        signupForm.style.display = "flex";
+        loginForm.style.display = "none";
+    } else {
+        signupForm.style.display = "none"; 
+    }
+    });
+
+  document.getElementById('loginButton').addEventListener('click', async () => {
+    const loginEmail = document.getElementById('loginEmail').value;
+    const loginPassword = document.getElementById('loginPassword').value;
+    const modalContent = document.querySelector('.modal-content');
+    if (!loginEmail || !loginPassword) {
+        alert('請填寫完所有資料。');
+        return; 
+    }
+    const loginData = {
+      email: loginEmail,
+      password: loginPassword
+    };
+
+    try {
+      const response = await fetch('/api/user/auth', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loginData)
+      });
+
+      let data = await response.json();
+
+      if (response.ok) {
+        const token = data.token;
+        localStorage.setItem('token', token);
+        console.log('登入成功拿token:',token);
+        document.getElementById('loginModal').style.display = 'none';
+        location.reload(true);
+      } else {
+        console.error(data.message)
+        const errorMessage = data.message || '登入失敗';
+        messageElement.textContent = errorMessage;
+        messageElement.classList.add('error');
+      }
+      messageContainer.innerHTML = '';
+      messageContainer.appendChild(messageElement);
+    //   modalContent.classList.add('expanded');
+      messageContainer.style.display = 'block';
+    } catch (error) {
+      console.error('發生錯誤', error);
+    }
+  });
+});
 
 
-//處理捷運站12站的按鈕
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     // 處理list捷運站按鈕
-//         const leftButton = document.querySelector('.left-button');
-//         const rightButton = document.querySelector('.right-button');
-//         const stationList = document.querySelector('.list');
-//         let currrentINdex=0;
 
-//         leftButton.addEventListener('click', function() {
-//             if (currentIndex > 0) {
-//             currentIndex--;
-//             updateStationList();
-//             }
-//         });
+//處理註冊部分
+
+let loginLink = document.querySelector(".logintitle");
+let loginForm = document.getElementById("loginModal");
+let signupForm = document.getElementById("signupModal");
+console.log("loginlink",loginLink);
+console.log("loginform",loginForm);
+  loginLink.addEventListener("click", function() {
+  if (loginForm.style.display === "none" || loginForm.style.display === "") {
+    loginForm.style.display = "flex";
+    signupForm.style.display = "none";
+  } else {
+    loginForm.style.display = "none"; 
+  }
+  });
+document.getElementById('signupButton').addEventListener('click', async () => {
+    const messageContainer = document.getElementById('messageContainer2');
+    const messageElement = document.createElement('div');
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    if (!name || !email || !password) {
+        alert('請填寫完所有資料。');
+        return; 
+    }
+
+    const signupData = {
+        name: name,
+        email: email,
+        password: password
+    };
+
+    try {
+        const response = await fetch('/api/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(signupData)
+        });
+        let data = await response.json();
         
-//         rightButton.addEventListener('click', function() {
-//             if (currentIndex < stations.length - 1) {
-//             currentIndex++;
-//             updateStationList();
-//             }
-//         });
-//     fetch('/api/mrts')
-//         .then(response => response.json())
-//         .then(data => {
-//             const stations = data.data.map(mrt=>mrt.name);
-//             //有空來研究下面
-//             function updateStationList() {
-//                 let html = '';
-//                 const stationsToShow = getStationsToShow();
-    
-//                 for (let i = currentIndex; i < currentIndex + stationsToShow; i++) {
-//                     if (stations[i]) {
-//                         html += `<p class="station">${stations[i]}</p>`;
-//                     }
-//                 }
-//                 stationList.innerHTML = html;
-//             }
-//             function getStationsToShow() {
-//                 return window.innerWidth < 600 ? 4 : 12; // 手機寬度小於600px時顯示4個，否則顯示12個
-//             }
-//             updateStationList();
-//             window.addEventListener('resize', function() {
-//                 currentIndex = 0; // 重新設定 currentIndex
-//                 updateStationList();
-//             });
-//         })
-//         .catch(error => {
-//             console.error('發生錯誤：', error);
-//         });
-       
-// });
+        if (response.ok) {
+            console.log('註冊成功');
+            messageElement.textContent = '註冊成功';
+            messageElement.classList.add('success');
+        } else {
+            console.error(data.message);
+            console.log(`${messageElement}messageelement`)
+            const errorMessage = data.message || '註冊失敗';
+            messageElement.textContent = errorMessage;
+            messageElement.classList.add('error');
+        }
+        messageContainer.innerHTML = '';
+        messageContainer.appendChild(messageElement);
+        messageContainer.style.display = 'block';
+        console.log(`${messageContainer}messagecon`)
+    } catch (error) {
+        console.error('發生錯誤', error);
+    }
+});
+
+//處理每次載入頁面 查看token
+
+async function checkTokenValidity() {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      try {
+        const response = await fetch('/api/user/auth', {
+          method: 'GET',
+          headers: {
+            'Authorization': token
+          }
+        });
+
+        if (response.ok) {
+            document.getElementById('showLoginForm').style.display = 'none';
+            document.getElementById('logout').style.display = 'block';
+            console.log("成功登入")
+        } else {
+            console.log("token有問題或無效")
+        }
+      } catch (error) {
+        console.error('發生錯誤', error);
+      }
+    }
+  }
+  let iconClose = document.querySelector(".icon-close");
+  iconClose.addEventListener('click', () => {
+    loginForm.style.display = "none";
+    signupForm.style.display = "none";
+  });
+  //登出後刪除token
+  let logoutText = document.getElementById('logout');
+  let loginText = document.getElementById('showLoginForm');
+  logoutText.addEventListener('click', () => {
+    logoutText.style.display = 'none';
+    loginText.style.display = 'block';
+    localStorage.removeItem('token');
+  });
+  window.addEventListener('load', () => {
+    checkTokenValidity();
+  });
