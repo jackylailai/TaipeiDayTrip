@@ -445,8 +445,15 @@ async function checkTokenValidity() {
       }
     }
   }
+    //控制登入xx
   let iconClose = document.querySelector(".icon-close");
   iconClose.addEventListener('click', () => {
+    loginForm.style.display = "none";
+    signupForm.style.display = "none";
+  });
+    //控制註冊xx
+  let iconClose2 = document.querySelector(".icon-close2");
+  iconClose2.addEventListener('click', () => {
     loginForm.style.display = "none";
     signupForm.style.display = "none";
   });

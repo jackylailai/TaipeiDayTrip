@@ -104,6 +104,11 @@ body {
     right: 5%;
     cursor: pointer;
 }
+.icon-close2{
+    position: absolute;
+    right: 5%;
+    cursor: pointer;
+}
 /* for login */
 .modal {
     display: none;

@@ -4,7 +4,6 @@ import os
 from dotenv import load_dotenv
 import os.path
 import jwt
-import datetime
 # import logging
 # logging.basicConfig(filename='app.log', level=logging.DEBUG)
 
