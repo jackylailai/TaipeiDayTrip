@@ -18,7 +18,223 @@ body {
     color: #448899;
     font-weight: bold;
 }
-
+.modal-header{
+    background-color: #448899;
+    height: 10px;
+    width: 340px;
+    top: 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    position: absolute;
+}
+.modal-header2{
+    background-color: #448899;
+    height: 10px;
+    width: 340px;
+    top: 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    position: absolute;
+}
+#logout{
+    display:none;
+}
+.exit{
+    display: flex;
+    width: 30px;
+    height: 30px;
+    padding: 7px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    text-indent: 10px;
+}
+.modal-content h3{
+    font-size: 24px;
+    color:#666;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.modal-content {
+    background-color: #FFF;
+    padding: 20px;
+    color:#757575;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    position: relative;
+    width: 300px;
+    height: 240px;
+    display: flex;
+    top: 30px;
+    align-content: center;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+  }
+  .modal-content2 h3{
+    font-size: 24px;
+    color:#666;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+  .modal-content2 {
+    background-color: #FFF;
+    padding: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color:#757575;
+    position: relative;
+    width: 300px;
+    height: 300px;
+    top: 30px;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+  }
+  .icon-close{
+    position: absolute;
+    right: 5%;
+    cursor: pointer;
+}
+/* for login */
+.modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    justify-content: center;
+}
+.signupModal{
+    display: none;
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    justify-content: center;
+}
+.emailinput{
+    color: #757575; 
+    font-size: 16px; 
+    width: 310px;
+    height: 50px;
+}
+.passwordinput{
+    color: #757575; 
+    font-size: 16px; 
+    width: 310px;
+    height: 50px;
+}
+.nameinput{
+    color: #757575; 
+    font-size: 16px; 
+    width: 310px;
+    height: 50px;
+}
+.nameinput input {
+    display: flex;
+    width: 100%;
+    padding: 15px;
+    opacity: 0.9;
+    column-gap: 20px;
+    height: 100%;
+    row-gap: 20px;
+    box-sizing: border-box;
+}
+.passwordinput input {
+    display: flex;
+    width: 100%;
+    padding: 15px;
+    opacity: 0.9;
+    column-gap: 20px;
+    height: 100%;
+    row-gap: 20px;
+    box-sizing: border-box;
+}
+.emailinput input {
+    display: flex;
+    width: 100%;
+    padding: 15px;
+    opacity: 0.9;
+    column-gap: 20px;
+    height: 100%;
+    row-gap: 20px;
+    box-sizing: border-box;
+}
+#loginForm{
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+#signupForm{
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px; 
+}
+#loginButton{
+    display: flex;
+    border-radius: 5px;
+    background-color:#489;
+    width:310px;
+    height:50px;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    color:#FFF;
+    font-size: 20px;
+    border: 0.5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+#signupButton{
+    display: flex;
+    border-radius: 5px;
+    background-color:#489;
+    width:310px;
+    height:50px;
+    border: 0.5px;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    color:#FFF;
+    font-size: 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.signuptitle {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.logintitle {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.message-container{
+    display: none;
+    margin: 1px;
+}
+.message-container2{
+    display: none;
+    margin: 3px;
+}
+.success {
+    color: green;
+}
+.error {
+    color: red;
+}
 .right-div {
     display: flex;
     color: #666666;
@@ -26,8 +242,10 @@ body {
     column-gap: 10px;
 }
 
-.right-div> :last-child {
+.right-div > :last-child,
+.right-div > :nth-last-child(2) {
     margin-right: 10px;
+    cursor: pointer;
 }
 
 .hero-section {
