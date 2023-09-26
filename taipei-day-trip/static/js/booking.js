@@ -1,3 +1,12 @@
+
+async function checkUserLoggedIn() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        
+        window.location.href = '/';
+        return;
+    }
+}
 const messageContainer = document.getElementById('messageContainer');
 const messageElement = document.createElement('div');
 //處理登入內容
@@ -130,7 +139,8 @@ document.getElementById('signupButton').addEventListener('click', async () => {
 });
 
 //處理每次載入頁面 查看token
-
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
 async function checkTokenValidity() {
     const token = localStorage.getItem('token');
 
@@ -149,6 +159,8 @@ async function checkTokenValidity() {
             document.getElementById('logout').style.display = 'block';
             console.log("成功登入");
             console.log(responseData.data);
+            nameInput.value = responseData.data.name;
+            emailInput.value = responseData.data.email;
         } else {
             console.log("token有問題或無效")
         }
@@ -181,3 +193,97 @@ async function checkTokenValidity() {
   window.addEventListener('load', () => {
     checkTokenValidity();
   });
+
+const loginButton = document.getElementById('showLoginForm');
+function triggerButtonClick() {
+    const event = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+    });
+    loginButton.dispatchEvent(event);
+}
+document.getElementById('reservation-top').addEventListener('click', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        triggerButtonClick();
+    } else {
+        window.location.href = '/booking';
+    }
+});
+
+// 處理get行程的fetch
+const attractionImage = document.getElementById('booking-image');
+const attractionName = document.querySelector('.reservation-maintitle');
+const attractionDate = document.querySelector('.reservation-date');
+const attractionTime = document.querySelector('.reservation-time');
+const attractionFare = document.querySelector('.reservation-fare');
+const attractionPlace = document.querySelector('.reservation-place');
+async function fetchAndDisplayBookings() {
+    try {
+        const response = await fetch('/api/booking', {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log("fetch到預定",data);
+            if (data.data!==null) {
+                console.log("進入頁面整理");
+                attractionImage.src = data.data.attraction.image;
+                attractionName.textContent = `台北一日遊 ： ${data.data.attraction.name}`;
+                attractionDate.textContent = `${data.data.date}`;
+                if(data.time==="morning"){
+                    attractionTime.textContent = `早上9點到下午4點`;
+                }else{
+                    attractionTime.textContent = `下午2點到晚上9點`;
+                };
+                attractionFare.textContent = `${data.data.price}`;
+                attractionPlace.textContent = `${data.data.attraction.address}`;
+
+                // 順便處理刪除按鈕
+                const deleteButton = document.querySelector(".icon-delete");
+                deleteButton.addEventListener('click', () => {
+                    deleteBooking();
+                });
+
+                bookingElement.appendChild(deleteButton);
+                bookingsContainer.appendChild(bookingElement);
+                };
+        } else {
+            console.error('獲取預訂失敗');
+        }
+    } catch (error) {
+        console.error('發生錯誤：', error);
+    }
+}
+
+
+async function deleteBooking() {
+    try {
+        const response = await fetch(`/api/booking/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': localStorage.getItem('token')
+            }
+        });
+
+        if (response.ok) {
+
+            fetchAndDisplayBookings();
+        } else {
+
+            console.error('刪除失敗');
+        }
+    } catch (error) {
+        console.error('發生錯誤：', error);
+    }
+}
+
+window.addEventListener('load', () => {
+    checkUserLoggedIn(); 
+    fetchAndDisplayBookings();
+});

@@ -5,46 +5,34 @@ const taipeiTopButton = document.querySelector(".left-div")
 taipeiTopButton.addEventListener('click', function() {
     window.location.href="/";
 });
-async function fetchData() {
-    try {
+// async function fetchData() {
+//     try {
 
-      const currentUrl = window.location.href;
-      const attractionId = currentUrl.split('/').pop();
-      const apiUrl = `/api/attraction/${attractionId}`;
+//       const currentUrl = window.location.href;
+//       const attractionId = currentUrl.split('/').pop();
+//       const apiUrl = `/api/attraction/${attractionId}`;
   
-      const response = await fetch(apiUrl);
+//       const response = await fetch(apiUrl);
   
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+//       if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//       }
   
-      const data = await response.json();
+//       const data = await response.json();
   
 
-      displayAttractionInfo(data);
-      imageButton();
+//       displayAttractionInfo(data);
+//       imageButton();
 
-    } catch (error) {
-      console.error('Error fetching attraction data:', error);
-    }
-  }
+//     } catch (error) {
+//       console.error('Error fetching attraction data:', error);
+//     }
+//   }
 
-  document.addEventListener('DOMContentLoaded', async function () {
-    await fetchData(); // 使用await調用async函式執行fetch
+//   document.addEventListener('DOMContentLoaded', async function () {
+//     await fetchData(); // 使用await調用async函式執行fetch
     
-  });
-//處理日期
-// const dateInput = document.querySelector('input[type="date"]');
-// console.log("抓到dateinput",dateInput)
-
-// const dateIcon = document.querySelector('.calendar');
-// console.log("抓icon",dateIcon);
-
-// dateIcon.addEventListener('click', function() {
-//     console.log("偵測點擊日期")
-//     dateInput.click();
-//     // dateInput.focus();
-// });
+//   });
 
 
 function displayAttractionInfo(data) {
@@ -57,7 +45,9 @@ function displayAttractionInfo(data) {
     const reservationSubtitle = document.querySelector('.reservation-subtitle');
 
     const attraction = data.data;
-  
+    const attractionId = attraction.id;
+    console.log("印看看fetch的attractionid",attractionId);
+    tourment.setAttribute('data-attraction-id',attractionId);
     // const titleDiv = document.createElement('div');
     // titleDiv.className = 'reservation-title';
     reservationTitle.innerHTML = `<h2>${attraction.name}</h2>`;
@@ -93,92 +83,42 @@ const morningBtn = document.getElementById("morning-btn");
 const afternoonBtn = document.getElementById("afternoon-btn");
 const fareText = document.querySelector(".fare");
 
+morningBtn.setAttribute("data-selected", "true");
+
+
 morningBtn.addEventListener('click', function() {
-morningBtn.style.backgroundColor = "#448899";
-afternoonBtn.style.backgroundColor = "#FFFF";
-fareText.textContent = "新台幣2000元";
+  if (!morningBtn.hasAttribute("data-selected")) {
+    morningBtn.setAttribute("data-selected", "true");
+    morningBtn.style.backgroundColor = "#448899";
+    fareText.textContent = "新台幣2000元";
+  }
+  
+  if (afternoonBtn.hasAttribute("data-selected")) {
+    afternoonBtn.removeAttribute("data-selected");
+    afternoonBtn.style.backgroundColor = "#FFFF";
+  }
 });
 
 afternoonBtn.addEventListener('click', function() {
-afternoonBtn.style.backgroundColor = "#448899";
-morningBtn.style.backgroundColor = "#FFFF";
-fareText.textContent = "新台幣2500元";
+  if (!afternoonBtn.hasAttribute("data-selected")) {
+    afternoonBtn.setAttribute("data-selected", "true");
+    afternoonBtn.style.backgroundColor = "#448899";
+    fareText.textContent = "新台幣2500元";
+  }
+  
+  if (morningBtn.hasAttribute("data-selected")) {
+    morningBtn.removeAttribute("data-selected");
+    morningBtn.style.backgroundColor = "#FFFF";
+  }
 });
 
-// //按鈕跟小圓點一起處理
-// function imageButton() {
-//     const leftButton = document.querySelector('.left-button');
-//     const rightButton = document.querySelector('.right-button');
-//     const imageContainer = document.querySelector('.image-container');
-//     const imageDots = document.querySelectorAll('.image-dot');
-
-//     const circle = document.querySelector('.circle');
-//     const circleA = circle.children;
-//     console.log(`${circle}and${circleA}`)
-
-//     let currentIndex = 0;
-
-//     function updateDisplayedImage(index) {
-//         const images = document.querySelectorAll('.image');
-
-//         for (let i = 0; i < images.length; i++) {
-//             const img_display = images[i];
-//             if (i === index) {
-//                 img_display.style.display = 'block';
-//                 console.log(`${i}第幾張圖片`)
-//                 // imageDots[i].classList.add('active');
-//             } else {
-//                 img_display.style.display = 'none';
-//                 // imageDots[i].classList.remove('active');
-//             }
-//         }
-//         for(let i =0;i<images.length;i++){
-//             let aNode = document.createElement('a');
-
-//             aNode.setAttribute('index',i);
-//             circle.appendChild(aNode);
-//         }
-//         imageDots.forEach((dot, i) => {
-//             if (i === index) {
-//                 console.log("進for處理dot",dot)
-//                 dot.style.backgroundColor = "#000";
-//                 // dot.classList.add('active');
-//             } else {
-//                 dot.style.backgroundColor = "transparent";
-//                 // dot.classList.remove('active');
-//             }
-//         });
-//         function circlechange(currentIndex){
-//             console.log("進入處理原點的func")
-//             for(let i = 0;i <circleA.length;i++){
-//                 console.log(`${i}：i的值`)
-//                 circleA[i].className=''
-
-//             }
-//             circleA[currentIndex].className='hover';
-//         }
-//         circlechange(currentIndex);
-//         currentIndex = index;
-//     }
-
-//     leftButton.addEventListener('click', function () {
-//         currentIndex = (currentIndex - 1 + imageContainer.children.length) % imageContainer.children.length;
-//         updateDisplayedImage(currentIndex);
-//     });
-
-//     rightButton.addEventListener('click', function () {
-//         currentIndex = (currentIndex + 1) % imageContainer.children.length;
-//         updateDisplayedImage(currentIndex);
-//     });
-//     // 初始化第一個圖片和圖片原點的狀態
-//     updateDisplayedImage(currentIndex);
-// }
 function imageButton() {
     const leftButton = document.querySelector('.left-button');
     const rightButton = document.querySelector('.right-button');
     const imageContainer = document.querySelector('.image-container');
     const images = document.querySelectorAll('.image');
     const imageButton = document.querySelector('.image-dot');
+    const tourment = document.querySelector('.tourment');
 
     let currentIndex = 0;
 
@@ -206,6 +146,9 @@ function imageButton() {
                 console.log(circleAElements[i]);
                 console.log(`circleaelements${circleAElements[i]}image`);
                 circle_display.style.backgroundColor = "#FFFF";
+                tourment.setAttribute('imageChosen',img_display.src);
+                // tourment.dataset.imageChosen = img_display.src;
+                console.log("來看看存了什麼",img_display.src)
             } else {
                 img_display.style.display = 'none';
                 circleAElements[i].style.backgroundColor= "#000";
@@ -361,7 +304,6 @@ document.getElementById('signupButton').addEventListener('click', async () => {
 });
 
 //處理每次載入頁面 查看token
-
 async function checkTokenValidity() {
     const token = localStorage.getItem('token');
 
@@ -404,11 +346,98 @@ async function checkTokenValidity() {
   let logoutText = document.getElementById('logout');
   let loginText = document.getElementById('showLoginForm');
   logoutText.addEventListener('click', () => {
-    // logoutText.style.display = 'none';
-    // loginText.style.display = 'block';
     localStorage.removeItem('token');
     location.reload(true);
   });
   window.addEventListener('load', () => {
     checkTokenValidity();
   });
+
+
+//處理表單傳送
+// const tourment = document.querySelector('.tourment');
+// const imageChosen = tourment.getAttribute('imageChosen');
+// console.log(imageChosen,"image");
+// const attractionId = document.querySelector('.tourment').getAttribute('data-attraction-id');
+// console.log(attractionId,"來看看其實是什麼")
+document.querySelector('.reservation-button').addEventListener('click', async () => {
+    const dateInput = document.querySelector('#dateInput').value;
+    let selectedTime = '';
+    let price = '';
+    const attractionId = document.querySelector('.tourment').getAttribute('data-attraction-id');
+    console.log(attractionId,"來看看其實是什麼")
+    const image = document.querySelector('.tourment').getAttribute('imageChosen');
+    console.log("按下按鈕後",attractionId);
+    const morningBtn = document.getElementById("morning-btn");
+    const afternoonBtn = document.getElementById("afternoon-btn");
+    // console.log(`morn after ${morningBtn},${afternoonBtn}`)
+    const token = localStorage.getItem('token');
+    if (!token) {
+        triggerButtonClick();
+    }else{
+      console.log("早上背景颜色：", morningBtn.style.backgroundColor);
+      console.log("下午背景颜色：", afternoonBtn.style.backgroundColor);
+     
+    }
+
+    if (morningBtn.hasAttribute("data-selected")) {
+        selectedTime = 'morning';
+        price = 2000;
+        console.log(selectedTime,price)
+    } else if (afternoonBtn.hasAttribute("data-selected")) {
+        selectedTime = 'afternoon';
+        price = 2500;
+    }
+
+    if (attractionId === null) {
+        alert('無法獲取attractionId');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('date', dateInput);
+    formData.append('time', selectedTime);
+    formData.append('attractionId', attractionId); 
+    formData.append('price',price);
+    formData.append('image',image);
+    console.log(formData);
+
+    try {
+        const response = await fetch('/api/booking', {
+            method: 'POST',
+            headers: {
+                'Authorization': localStorage.getItem('token') 
+            },
+            body: formData,
+        });
+
+        if (response.ok) {
+            alert('預約成功！');
+            // 可能需要處理刷新頁面
+        } else {
+            const data = await response.json();
+            alert(`預約失敗：${data.message}`);
+        }
+    } catch (error) {
+        console.error('發生錯誤：', error);
+        alert('發生錯誤請重試');
+    }
+});
+
+const loginButton = document.getElementById('showLoginForm');
+function triggerButtonClick() {
+    const event = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+    });
+    loginButton.dispatchEvent(event);
+}
+document.getElementById('reservation-top').addEventListener('click', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        triggerButtonClick();
+    } else {
+        window.location.href = '/booking';
+    }
+});
