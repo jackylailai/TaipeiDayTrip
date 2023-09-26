@@ -249,6 +249,9 @@ body {
     font-size: 16px;
     column-gap: 10px;
 }
+#reservation-top{
+    cursor: pointer;
+}
 .right-div > :last-child,
 .right-div > :nth-last-child(2) {
     margin-right: 10px;
