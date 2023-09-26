@@ -75,44 +75,40 @@
     <hr class="upperhr">
     <div class="wrapper">
         <div class="container-title">
-            <div class="welcome-title">
+            <div class="welcome-title" id="welcome-title">
                 您好，待預訂的行程如下：
             </div>
         </div>
     </div>
+<div class="hideable-elements">
     <div class="wrapper">
         <div class="container">
             <div class="image-container">
-                <img src="{{ url_for('static', filename='images/example.jpg') }}" alt="" id="booking-image" class="image">
+                <img src="" alt="" id="booking-image" class="image">
                 <!-- <div class="image-container"></div> -->
             </div>
             <div class="tourment">
                 <div class="reservation">
                     <div class="reservation-maintitle">
-                        台北一日遊 ： 平安鐘
                     </div>
                     <div class="reservation-title">
                         日期：
                         <div class="reservation-date reservation-content">
-                            2021-04-23
                         </div>
                     </div>
                     <div class="reservation-title">
                         時間：
                         <div class="reservation-time reservation-content">
-                            早上9點到下午4點
                         </div>
                     </div>
                     <div class="reservation-title">
                         費用：
                         <div class="reservation-fare reservation-content">
-                            新台幣2000元
                         </div>
                     </div>
                     <div class="reservation-title">
                         地點：
                         <div class="reservation-place reservation-content">
-                            台北市 大安區忠孝東路4段
                         </div>
                     </div>
                     <img src="{{ url_for('static', filename='images/icon_delete.svg') }}" alt="" class="icon-delete">
@@ -187,6 +183,7 @@
             </button>
         </div>
     </div>
+</div>
     <footer id="footer-id">
         <p>COPYRIGHT © 2021 台北一日遊</p>
     </footer>

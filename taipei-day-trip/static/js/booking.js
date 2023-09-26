@@ -7,6 +7,11 @@ async function checkUserLoggedIn() {
         return;
     }
 }
+const taipeiTopButton = document.querySelector(".left-div")
+
+taipeiTopButton.addEventListener('click', function() {
+    window.location.href="/";
+});
 const messageContainer = document.getElementById('messageContainer');
 const messageElement = document.createElement('div');
 //處理登入內容
@@ -141,6 +146,7 @@ document.getElementById('signupButton').addEventListener('click', async () => {
 //處理每次載入頁面 查看token
 const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
+const welcome = document.getElementById("welcome-title")
 async function checkTokenValidity() {
     const token = localStorage.getItem('token');
 
@@ -161,6 +167,7 @@ async function checkTokenValidity() {
             console.log(responseData.data);
             nameInput.value = responseData.data.name;
             emailInput.value = responseData.data.email;
+            welcome.innerHTML = `您好，${responseData.data.name}，待預訂的行程如下：`;
         } else {
             console.log("token有問題或無效")
         }
@@ -231,7 +238,7 @@ async function fetchAndDisplayBookings() {
         if (response.ok) {
             const data = await response.json();
             console.log("fetch到預定",data);
-            if (data.data!==null) {
+            if (data!==null) {
                 console.log("進入頁面整理");
                 attractionImage.src = data.data.attraction.image;
                 attractionName.textContent = `台北一日遊 ： ${data.data.attraction.name}`;
@@ -241,17 +248,24 @@ async function fetchAndDisplayBookings() {
                 }else{
                     attractionTime.textContent = `下午2點到晚上9點`;
                 };
-                attractionFare.textContent = `${data.data.price}`;
+                attractionFare.textContent = `新臺幣：${data.data.price}元`;
                 attractionPlace.textContent = `${data.data.attraction.address}`;
 
                 // 順便處理刪除按鈕
                 const deleteButton = document.querySelector(".icon-delete");
                 deleteButton.addEventListener('click', () => {
-                    deleteBooking();
+                    deleteBooking(data.data.attraction.name);
                 });
+                }else{
+                    const hideableElements = document.querySelector('.hideable-elements');
+                    hideableElements.style.display = 'none';
+                    console.error('沒行程');
+                    const parentContainer = document.querySelector('.container-title'); 
+                    const newDiv = document.createElement('div');
+                    newDiv.classList.add('container-title-null'); 
+                    newDiv.textContent = '目前沒有任何待預訂的行程';
 
-                bookingElement.appendChild(deleteButton);
-                bookingsContainer.appendChild(bookingElement);
+                    parentContainer.appendChild(newDiv);
                 };
         } else {
             console.error('獲取預訂失敗');
@@ -262,20 +276,21 @@ async function fetchAndDisplayBookings() {
 }
 
 
-async function deleteBooking() {
+async function deleteBooking(name) {
     try {
-        const response = await fetch(`/api/booking/`, {
+        console.log("準備刪除name為",name);
+        const response = await fetch('/api/booking', {
             method: 'DELETE',
             headers: {
-                'Authorization': localStorage.getItem('token')
-            }
+                'Authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name }), 
         });
 
         if (response.ok) {
-
             fetchAndDisplayBookings();
         } else {
-
             console.error('刪除失敗');
         }
     } catch (error) {

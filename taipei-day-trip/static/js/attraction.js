@@ -5,34 +5,34 @@ const taipeiTopButton = document.querySelector(".left-div")
 taipeiTopButton.addEventListener('click', function() {
     window.location.href="/";
 });
-// async function fetchData() {
-//     try {
+async function fetchData() {
+    try {
 
-//       const currentUrl = window.location.href;
-//       const attractionId = currentUrl.split('/').pop();
-//       const apiUrl = `/api/attraction/${attractionId}`;
+      const currentUrl = window.location.href;
+      const attractionId = currentUrl.split('/').pop();
+      const apiUrl = `/api/attraction/${attractionId}`;
   
-//       const response = await fetch(apiUrl);
+      const response = await fetch(apiUrl);
   
-//       if (!response.ok) {
-//         throw new Error('Network response was not ok');
-//       }
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
   
-//       const data = await response.json();
+      const data = await response.json();
   
 
-//       displayAttractionInfo(data);
-//       imageButton();
+      displayAttractionInfo(data);
+      imageButton();
 
-//     } catch (error) {
-//       console.error('Error fetching attraction data:', error);
-//     }
-//   }
+    } catch (error) {
+      console.error('Error fetching attraction data:', error);
+    }
+  }
 
-//   document.addEventListener('DOMContentLoaded', async function () {
-//     await fetchData(); // 使用await調用async函式執行fetch
+  document.addEventListener('DOMContentLoaded', async function () {
+    await fetchData(); // 使用await調用async函式執行fetch
     
-//   });
+  });
 
 
 function displayAttractionInfo(data) {

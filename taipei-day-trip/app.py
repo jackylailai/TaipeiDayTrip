@@ -340,18 +340,18 @@ def get_bookings():
 def delete_booking():
     if not is_user_authenticated():  
         return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
-    cursor=None
+    cursor = None
     try:
-        # booking_id = request.args.get('booking_id')
-        data = request.get_json()
-        attraction_id = data.get('attraction_id')
-
+        # name = request.json.get('name') 
+        # if not name:
+        #     return jsonify({"error": True, "message": "請提供要刪除的預訂的姓名"}), 400
+        
         connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor()
-
-        query = "DELETE FROM booking WHERE id = %s"
-        cursor.execute(query, (attraction_id,))
-
+        print(cursor)
+        query = "DELETE FROM booking"
+        cursor.execute(query)
+        print(cursor,"delete")
         connection.commit()
 
         if cursor.rowcount > 0:
@@ -364,8 +364,10 @@ def delete_booking():
         return jsonify({"error": True, "message": "删除時發生錯誤"}), 500
 
     finally:
-        cursor.close()
-        connection.close()    
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()    
 
 def is_user_authenticated():
     token = request.headers.get('Authorization')
