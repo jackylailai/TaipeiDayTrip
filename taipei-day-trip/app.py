@@ -274,7 +274,13 @@ def create_booking():
         connection = mysql.connector.connect(**db_config)
         print(connection,"connection")
         cursor = connection.cursor()
-        print(cursor,"cursor")
+        connection = mysql.connector.connect(**db_config)
+        cursor = connection.cursor()
+
+        delete_query = "DELETE FROM booking"
+        cursor.execute(delete_query)
+        connection.commit()
+
         insert_query = "INSERT INTO booking (booking_attraction_id, date, time, price,image) VALUES (%s, %s, %s, %s, %s)"
         data = (attraction_id, date, time, price, image)
         print(data)

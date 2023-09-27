@@ -490,6 +490,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-radius:5px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 .lowerhr{
     display: block;
