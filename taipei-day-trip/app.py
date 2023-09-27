@@ -274,8 +274,7 @@ def create_booking():
         connection = mysql.connector.connect(**db_config)
         print(connection,"connection")
         cursor = connection.cursor()
-        connection = mysql.connector.connect(**db_config)
-        cursor = connection.cursor()
+
 
         delete_query = "DELETE FROM booking"
         cursor.execute(delete_query)
