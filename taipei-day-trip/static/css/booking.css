@@ -321,7 +321,6 @@ body {
     background: var(--White, #FFF);
 }
 .tourment{
-    width:340px;
     height:200px;
     position: relative;
 }
@@ -339,6 +338,8 @@ body {
     font-size: 16px;
     font-weight: 900;
     line-height: 13.3px; 
+    white-space: nowrap;
+    letter-spacing: 1.5px;
 }
 .reservation-content{
     color: var(--secondary-color-gray-70, #666);
@@ -347,6 +348,7 @@ body {
     font-style: normal;
     font-weight: 100;
     line-height: 13.3px; 
+    white-space: break-spaces;
 }
 .icon-delete{
     bottom: 0;

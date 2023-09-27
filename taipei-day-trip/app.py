@@ -261,10 +261,14 @@ def login_user():
 
 @app.route('/api/booking', methods=['POST'])
 def create_booking():
-    if not is_user_authenticated():  # 檢查使用者是否未登入
+    decoded_token=is_user_authenticated()
+    if not decoded_token:  # 檢查使用者是否未登入
         return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
     cursor=None 
     try:
+        user_id = decoded_token['id']
+        # user_name = decoded_token['name']
+        # user_email = decoded_token['email']
 
         attraction_id = request.form.get('attractionId')
         date = request.form.get('date')
@@ -276,12 +280,12 @@ def create_booking():
         cursor = connection.cursor()
 
 
-        delete_query = "DELETE FROM booking"
-        cursor.execute(delete_query)
+        delete_query = "DELETE FROM booking WHERE user_id = %s"
+        cursor.execute(delete_query,(user_id,))
         connection.commit()
 
-        insert_query = "INSERT INTO booking (booking_attraction_id, date, time, price,image) VALUES (%s, %s, %s, %s, %s)"
-        data = (attraction_id, date, time, price, image)
+        insert_query = "INSERT INTO booking (booking_attraction_id, date, time, price,image,user_id) VALUES (%s, %s, %s, %s, %s, %s)"
+        data = (attraction_id, date, time, price, image, user_id)
         print(data)
         cursor.execute(insert_query, data,)
         connection.commit()
@@ -301,21 +305,26 @@ def create_booking():
     
 @app.route('/api/booking', methods=['GET'])
 def get_bookings():
-    if not is_user_authenticated():  # 檢查使用者是否未登入
+    decoded_token=is_user_authenticated()
+    if not decoded_token:  # 檢查使用者是否未登入
         return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
     try:
-        
+        # print(decoded_token,"token解讀出的資料")
+        user_id = decoded_token['id']
+        # user_name = decoded_token['name']
+        # user_email = decoded_token['email']
         connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor()
         cursor.execute("""
             SELECT b.date, b.price, b.time, b.image, a.name, a.address
             FROM booking AS b
             JOIN attractions AS a ON b.booking_attraction_id = a.id
+            WHERE b.user_id = %s
             LIMIT 1
-        """)
+        """, (user_id,))
 
         booking_data = cursor.fetchone()  
-        print("進來檢查登入資料庫東西",booking_data)
+        print("進來檢查登入資料庫東西booking_data",booking_data)
         if booking_data:
             response_data = {
                 "attraction": {
@@ -343,19 +352,20 @@ def get_bookings():
 
 @app.route('/api/booking', methods=['DELETE'])
 def delete_booking():
-    if not is_user_authenticated():  
+    decoded_token=is_user_authenticated()
+    if not decoded_token:  
         return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
     cursor = None
     try:
-        # name = request.json.get('name') 
-        # if not name:
-        #     return jsonify({"error": True, "message": "請提供要刪除的預訂的姓名"}), 400
+        user_id = decoded_token['id']
+        # user_name = decoded_token['name']
+        # user_email = decoded_token['email']
         
         connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor()
         print(cursor)
-        query = "DELETE FROM booking"
-        cursor.execute(query)
+        query = "DELETE FROM booking WHERE user_id = %s"
+        cursor.execute(query,(user_id,))
         print(cursor,"delete")
         connection.commit()
 
@@ -376,13 +386,13 @@ def delete_booking():
 
 def is_user_authenticated():
     token = request.headers.get('Authorization')
-    print(token,"token")
+    # print(token,"token")
     if not token:
         return False  
     try:
         decoded_token = jwt.decode(token, secret_key, algorithms=['HS256'])
-        print(decoded_token,"decoded_token")
-        return True
+        # print(decoded_token,"decoded_token")
+        return decoded_token
     except jwt.ExpiredSignatureError:
         return False  
     except jwt.InvalidTokenError:
