@@ -104,6 +104,11 @@ body {
     right: 5%;
     cursor: pointer;
 }
+.icon-close2{
+    position: absolute;
+    right: 5%;
+    cursor: pointer;
+}
 /* for login */
 .modal {
     display: none;
@@ -243,6 +248,9 @@ body {
     color: #666666;
     font-size: 16px;
     column-gap: 10px;
+}
+#reservation-top{
+    cursor: pointer;
 }
 .right-div > :last-child,
 .right-div > :nth-last-child(2) {
@@ -482,6 +490,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-radius:5px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 .lowerhr{
     display: block;

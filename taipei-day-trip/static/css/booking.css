@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,500&display=swap&subset=chinese-traditional');
-/* @import url(https://fonts.googleapis.com/css?family=Open+Sans); */
 body {
     font-family: "Noto Sans TC", "Microsoft Yahei", "微軟雅黑", sans-serif;
 }
-
+.topcenter {
+    display: flex;
+    justify-content: center;
+}
 .top {
     text-indent: 10px;
     display: flex;
@@ -12,11 +14,11 @@ body {
     height: 54px;
     width: 100%;
 }
-
 .left-div {
     font-size: 30px;
     color: #448899;
     font-weight: bold;
+    cursor: pointer;
 }
 .modal-header{
     background-color: #448899;
@@ -240,6 +242,7 @@ body {
 .error {
     color: red;
 }
+
 .right-div {
     display: flex;
     color: #666666;
@@ -254,250 +257,170 @@ body {
     margin-right: 10px;
     cursor: pointer;
 }
-
-.hero-section {
-    background-image: url('/static/images/hero_image.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 100px 0;
-    width: 100%;
-    /* text-align: center;  */
+.upperhr {
+    display: none;
 }
-
-.hero-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-    text-indent: 10px;
-    margin-bottom: 10px;
-    /* 之後再看怎麼調整先救火  */
-}
-
-.hero-text h2 {
-    font-size: 28px;
-    color: #F8F8F8;
-    box-shadow: 0px 0px 30px 0px #AABBCC;
-    width: 320px;
-    font-weight: bold;
-}
-
-.hero-region {
-    padding: 10px;
-    gap: 10px;
-    height: 170px;
-    flex-direction: column;
-}
-
-.hero-text p {
-    font-size: 16px;
-    color: #F8F8F8;
-}
-
-.search {
-    height: 45px;
-    display: flex;
-}
-
-.search-form {
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-}
-
-.search-form input[type="text"] {
-    width: 225px;
-    height: 45px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px 0 0 5px;
-    margin: 0;
-    text-indent: 10px;
-    box-shadow: 0px 0px 20px 0px #ABC;
-    /* 這可以記起來！ */
-}
-/* .fa-search {
-    width: 60px;
-    height:49px;
-    border: 1px solid #448899;
-    background: #448899;
-    text-align: center;
-    color: #fff;
-    border-radius: 0 5px 5px 0;
-    cursor: pointer;
-    font-size: 20px;
-  } */
-.search-button{
-    width: 60px;
-    height:49px;
-    background-color: #448899;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 10px;
-}
-#search-button {
-    width: 60px;
-    height:49px;
-    background-color: #448899;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 0 5px 5px 0;
-}
-.widthcontrol{
- width:100%;  
- display:flex; 
- margin-top: 10px;
-}
-.list-bar {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    overflow-x:hidden;
-    scroll-behavior: smooth;
-}
-.list div{
-    flex:auto;
-}
-.left-button{
-    width:20px;
-    height:20px;
-    padding:5px;
-    cursor: pointer;
-    border-radius:50%;
-    border-color: lightgray;
-    border-width: 1px;
-    border-style: solid;
-}
-#right-button{
-    border-radius:50%;
-    width:20px;
-    height:20px;
-    padding:5px;
-    cursor: pointer;
-    border-color: lightgray;
-    border-width: 1px;
-    border-style: solid;
-    border-radius:50%;
-}
-
-/* .arrow-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    cursor: pointer;
-} */
 .wrapper {
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
-.list {
-    display: flex;
-    gap: 10px;
-    white-space: nowrap;
-    text-indent: 15px;
-}
-.list div {
-    cursor: pointer;
-    white-space: nowrap; /* 不換行 */
-  }
-.listbar-center {
-    display: flex;
-    justify-content: center;
-}
-
-
-.content {
-    width: 90%;
-    align-items: center;
-}
-
-.content2 {
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 20px;
-    column-gap: 20px;
-    /* width:25%; */
-    row-gap: 20px;
-
-}
-
-.titlepic {
-    position: relative;
-}
-
-.overlay {
-    display: flex;
-    position: absolute;
-    bottom: 45px;
-    left: 0;
-    width: 100%;
-    height: 40px;
+.container-title-null{
+    font-family: Noto Sans TC;
+    padding: 10px;
     font-size: 16px;
-    color: #FFFFFF;
-    background-color: #3232329f;
-    align-items: center;
+    color: var(--secondary-color-gray-70, #666);
 }
-.overlay p{
-    padding: 10px;
+.image-container {
+    position: relative;
+    display: inline-block;
+    margin-top: 0;
 }
-.titlediv {
-    color: #FFFFFF;
-}
-.title p {
-    display: flex;
-    padding: 10px;
-}
-.titlepic img {
-    cursor: pointer;
+.image{
     width: 100%;
-    height:200px;
-    margin-top: 20px;
+    height: 350px;
     display: block;
     position: relative;
     border-top: 0.5px solid #ccc;
     border-color: lightgray;
     border-width: 0.5px;
     border-style: solid;
-    border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 5px 5px;
     object-fit: cover;
     object-position: center;
     background-size: 100% 100%;
 }
-
-.title {
-    width: 100%;
-    background-color: #FFFFFF;
-    color: #757575;
-    text-align: center;
-    height: 45px;
+.container{
+    width: 95%;
     display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 10px;
+    flex-direction: column;
+}
+
+.welcome-title{
+    color: var(--secondary-color-gray-70, #666);
+    font-family: Noto Sans TC;
+    font-size: 19px;
+    font-weight: 900;
+    padding:10px
+}
+.reservation{
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    letter-spacing: 1px;
+}
+.input-field{
+    width: 180px; 
+    height: 18px;
+    padding:10px;
+    border-radius: 5px;
+    border: 1px solid var(--Gray-300, #E8E8E8);
+    background: var(--White, #FFF);
+}
+.tourment{
+    width:340px;
+    height:200px;
+    position: relative;
+}
+.reservation-maintitle{
+    color: var(--primary-color-cyan-70, #489);
+    font-family: Noto Sans TC;
     font-size: 16px;
-    align-items: center;
-    border-radius: 0 0 5px 5px;
-    border-bottom: 0.5px solid #ccc;
-    border-top: 0.5px solid #ccc;
-    border-color: lightgray;
-    border-width: 0.5px;
-    border-style: solid;
+    font-weight: 700;
+    line-height: 13.3px;
+    margin-bottom: 10px;
 }
-
-.title p {
-    color: #757575;
-}
-
-.topcenter {
+.reservation-title{
     display: flex;
-    justify-content: center;
+    color: var(--secondary-color-gray-70, #666);
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 13.3px; 
+}
+.reservation-content{
+    color: var(--secondary-color-gray-70, #666);
+    font-family: Noto Sans TC;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 100;
+    line-height: 13.3px; 
+}
+.icon-delete{
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+}
+.information-title{
+    color: var(--secondary-color-gray-70, #666);
+    font-size: 19px;
+    font-weight: 900;
+    line-height: 16px; /* 84.211% */
+}
+.information{
+    color: var(--secondary-color-gray-70, #666);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 13.3px; /* 83.125% */
+}
+.information-input{
+    display:flex;
+    align-items: center;
+}
+.lowerhr{
+    display: block;
+    background-color: #E8E8E8;
+    margin-bottom: 30px;
+    height: 1px;
+    border: none;
+    margin:0;
+}
+.content{
+    width:95%;
+    color:#666666;
+    font-size:16px;
+    display:flex;
+    padding: 10px;
+    row-gap: 20px;
+    flex-direction: column;
+    letter-spacing: 1px;
+    line-height: 24px;
+}
+.content-end{
+    align-items: flex-end;
+    width:95%;
+    color:#666666;
+    font-size:16px;
+    display:flex;
+    padding: 10px;
+    row-gap: 20px;
+    flex-direction: column;
+    letter-spacing: 1px;
+    line-height: 24px;
+    margin-bottom: 30px;
 }
 
+.totalfare{
+    font-size:16px;
+    font-weight:700;
+}
+.paybutton{
+    color: var(--additional-color-white, #FFF);
+    text-align: center;
+    font-family: Noto Sans TC;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 100;
+    display: flex;
+    padding: 10px 20px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background: var(--primary-color-cyan-70, #489);
+}
 footer {
     position: absolute;
     font-size: 16px;
@@ -512,42 +435,51 @@ footer {
     bottom: 0;
     line-height: 50px;
 }
-@media screen and (min-width: 800px) and (max-width: 1200px){
-    .titlepic img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: cover;
-        height:350px;
-    }
-    .content2 {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        width:100%;
-        align-items: end;
-    }
-}
-@media screen and (min-width: 600px) and (max-width: 800px) {
-    /* 原先600~1200 */
-    .top {
+@media screen and (min-width: 600px) and (max-width: 800px){
+    .container{
+        width:80%;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
+        gap: 30px;
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
     }
-    .content2 {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+    .tourment{
+        width: 90%;
+    }
+    .images-container{
         width:100%;
-        align-items: end;
     }
-    .titlepic img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: cover;
-        height:250px;
+    .image{
+        height:100%;
     }
 }
-
+@media screen and (min-width: 800px) and (max-width: 1200px){
+    .container{
+        width:80%;
+        display: flex;
+        gap: 30px;
+        padding: 20px;
+        flex-direction: column;
+        align-items: center;
+    }
+    .wrapper{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    .images-container{
+        width:100%;
+    }
+    .image{
+        height:100%;
+    }
+    .content-end{
+        display:flex;
+        align-items: center;
+    }
+}
 @media screen and (min-width: 1200px) {
     .top {
         width: 1200px;
@@ -555,53 +487,69 @@ footer {
         justify-content: space-between;
         align-items: center;
     }
-
-    .hero-section {
+    .upperhr{
+        display: block;
+        background-color: #E8E8E8;
+        margin-bottom: 30px;
+        height: 1px;
+        border: none;
+    }
+    .container-title{
+        width:980px; 
+        display:flex; 
+        justify-content: space-between;
+        margin-bottom: 30px;
+        flex-direction: column;
+        gap: 30px;
+    }
+    .container-title-null{
+        padding: 0;
+    }
+    .welcome-title{
+        padding:0;
+    }
+    .container{
+        display:flex; 
+        width:980px; 
+        justify-content: space-between;
+        height: 200px;
+    }
+    .image{
+        width: 270px;
+        height:200px;
+        margin: 0;
+    }
+    .reservation-content{
+    }
+    .icon-delete{
+        top: 0;
+    }
+    .wrapper{
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
     }
-
-    .hero-region {
-        display: flex;
-        width: 1200px;
+    .tourment{
+        width: 650px;
     }
-
-    .hero-center {
-        display: flex;
-        justify-content: center;
-    }
-
-    .list-bar {
-        width: 1200px;
-    }
-    .widthcontrol{
-        width:1200px;  
-        display: flex; 
-        margin-top:10px;
-       }
-    .listbar-center {
+    .wrapper2{
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
     }
-
-    .content {
-        width: 1200px;
-        display: flex;
+    .content-end{
+        width:980px;
     }
-
-    .content2 {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        width: 1200px;
+    .content{
+        width:980px;
     }
-
-    .titlepic img {
-        width: 100%;
-        height: 235px;
+    .container{
+        margin-bottom: 20px;
+        align-content: flex-start;
     }
-
     footer {
-        position: absolute;
         font-size: 16px;
         background-color: #757575;
         color: #ffff;
@@ -609,19 +557,12 @@ footer {
         margin: 0 auto;
         text-align: center;
         padding: 10px;
-        position: relative;
         left: 0;
         bottom: 0;
+        position: relative;
         line-height: 50px;
-        display: flex;
+        display:flex;
         justify-content: center;
         align-items: center;
-    }
-    .list-bar {
-        align-items: center;
-        display: flex;
-        justify-content: space-between;
-        overflow-x:hidden;
-        scroll-behavior: smooth;
     }
 }

@@ -4,7 +4,6 @@ import os
 from dotenv import load_dotenv
 import os.path
 import jwt
-import datetime
 # import logging
 # logging.basicConfig(filename='app.log', level=logging.DEBUG)
 
@@ -213,7 +212,7 @@ def get_current_user():
             "name": user_name,
             "email": user_email
         }
-        print("get登入資料後，user_data",user_data)
+        # print("get登入資料後，user_data",user_data)
         return jsonify({"data": user_data}), 200
 
     except jwt.ExpiredSignatureError:
@@ -259,5 +258,135 @@ def login_user():
             cursor.close()
         if connection:
             connection.close()
+
+@app.route('/api/booking', methods=['POST'])
+def create_booking():
+    if not is_user_authenticated():  # 檢查使用者是否未登入
+        return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
+    cursor=None 
+    try:
+
+        attraction_id = request.form.get('attractionId')
+        date = request.form.get('date')
+        time = request.form.get('time')
+        price = request.form.get('price')
+        image = request.form.get('image')
+        connection = mysql.connector.connect(**db_config)
+        print(connection,"connection")
+        cursor = connection.cursor()
+
+
+        delete_query = "DELETE FROM booking"
+        cursor.execute(delete_query)
+        connection.commit()
+
+        insert_query = "INSERT INTO booking (booking_attraction_id, date, time, price,image) VALUES (%s, %s, %s, %s, %s)"
+        data = (attraction_id, date, time, price, image)
+        print(data)
+        cursor.execute(insert_query, data,)
+        connection.commit()
+        
+        cursor.close()
+        connection.close()
+
+
+        return jsonify({'message': '預約成功'}), 200
+
+    except Exception as e:
+        print("Error:", str(e))
+        connection.rollback()
+        cursor.close()
+        connection.close()
+        return jsonify({'error': True, 'message': '預約失敗'}), 400
+    
+@app.route('/api/booking', methods=['GET'])
+def get_bookings():
+    if not is_user_authenticated():  # 檢查使用者是否未登入
+        return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
+    try:
+        
+        connection = mysql.connector.connect(**db_config)
+        cursor = connection.cursor()
+        cursor.execute("""
+            SELECT b.date, b.price, b.time, b.image, a.name, a.address
+            FROM booking AS b
+            JOIN attractions AS a ON b.booking_attraction_id = a.id
+            LIMIT 1
+        """)
+
+        booking_data = cursor.fetchone()  
+        print("進來檢查登入資料庫東西",booking_data)
+        if booking_data:
+            response_data = {
+                "attraction": {
+                    "name": booking_data[4],  
+                    "address": booking_data[5],  
+                    "image": booking_data[3], 
+                },
+                "date": booking_data[0],  
+                "price": booking_data[1],  
+                "time": booking_data[2],  
+            }
+            # print(response_data)
+            return jsonify({"data": response_data}), 200
+
+        return jsonify(None), 200
+
+    except Exception as e:
+        return jsonify({"error": True, "message": str(e)}), 500
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+@app.route('/api/booking', methods=['DELETE'])
+def delete_booking():
+    if not is_user_authenticated():  
+        return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
+    cursor = None
+    try:
+        # name = request.json.get('name') 
+        # if not name:
+        #     return jsonify({"error": True, "message": "請提供要刪除的預訂的姓名"}), 400
+        
+        connection = mysql.connector.connect(**db_config)
+        cursor = connection.cursor()
+        print(cursor)
+        query = "DELETE FROM booking"
+        cursor.execute(query)
+        print(cursor,"delete")
+        connection.commit()
+
+        if cursor.rowcount > 0:
+            return jsonify({"ok": True}), 200
+        else:
+            return jsonify({"error": True, "message": "找不到預定"}), 404
+
+    except Exception as e:
+        print("刪除時發生錯誤", str(e))
+        return jsonify({"error": True, "message": "删除時發生錯誤"}), 500
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()    
+
+def is_user_authenticated():
+    token = request.headers.get('Authorization')
+    print(token,"token")
+    if not token:
+        return False  
+    try:
+        decoded_token = jwt.decode(token, secret_key, algorithms=['HS256'])
+        print(decoded_token,"decoded_token")
+        return True
+    except jwt.ExpiredSignatureError:
+        return False  
+    except jwt.InvalidTokenError:
+        return False  
+    
 app.debug = True
 app.run(host="0.0.0.0", port=3000)

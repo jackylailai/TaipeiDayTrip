@@ -445,8 +445,15 @@ async function checkTokenValidity() {
       }
     }
   }
+    //控制登入xx
   let iconClose = document.querySelector(".icon-close");
   iconClose.addEventListener('click', () => {
+    loginForm.style.display = "none";
+    signupForm.style.display = "none";
+  });
+    //控制註冊xx
+  let iconClose2 = document.querySelector(".icon-close2");
+  iconClose2.addEventListener('click', () => {
     loginForm.style.display = "none";
     signupForm.style.display = "none";
   });
@@ -462,3 +469,21 @@ async function checkTokenValidity() {
   window.addEventListener('load', () => {
     checkTokenValidity();
   });
+
+  const loginButton = document.getElementById('showLoginForm');
+function triggerButtonClick() {
+    const event = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+    });
+    loginButton.dispatchEvent(event);
+}
+document.getElementById('reservation-top').addEventListener('click', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        triggerButtonClick();
+    } else {
+        window.location.href = '/booking';
+    }
+});
