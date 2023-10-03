@@ -320,6 +320,30 @@ body {
     border: 1px solid var(--Gray-300, #E8E8E8);
     background: var(--White, #FFF);
 }
+#card-number{
+    width: 180px; 
+    height: 18px;
+    padding:10px;
+    border-radius: 5px;
+    border: 1px solid var(--Gray-300, #E8E8E8);
+    background: var(--White, #FFF);
+}
+#card-expiration-date{
+    width: 180px; 
+    height: 18px;
+    padding:10px;
+    border-radius: 5px;
+    border: 1px solid var(--Gray-300, #E8E8E8);
+    background: var(--White, #FFF);
+}
+#card-ccv{
+    width: 180px; 
+    height: 18px;
+    padding:10px;
+    border-radius: 5px;
+    border: 1px solid var(--Gray-300, #E8E8E8);
+    background: var(--White, #FFF);
+}
 .tourment{
     height:200px;
     position: relative;

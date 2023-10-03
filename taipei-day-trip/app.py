@@ -1,14 +1,20 @@
+import time
 from flask import *
 import mysql.connector
 import os
 from dotenv import load_dotenv
 import os.path
 import jwt
+import requests
 # import logging
 # logging.basicConfig(filename='app.log', level=logging.DEBUG)
 
 # 載入.env文件中的環境變數
 load_dotenv()
+partner_key=os.environ.get("partner_key")
+print("partnerkey",partner_key)
+merchant_id=os.environ.get("merchant_id")
+print("merchant_id",merchant_id)
 # 從環境變數中讀取資料庫配置
 db_config = {
     "host": os.environ.get("DB_HOST"),
@@ -397,6 +403,64 @@ def is_user_authenticated():
         return False  
     except jwt.InvalidTokenError:
         return False  
-    
+
+
+
+@app.route('/api/orders', methods=['POST'])
+def create_order():
+    try:
+        data = request.get_json()
+        contact = data.get("contact")
+        name = contact.get("name")
+        prime = data.get("prime")
+        email = contact.get("email")
+        phone_number = contact.get("phone")
+
+        current_time = int(time.time() * 1000)
+        order_number=str(current_time) 
+        print(order_number,"order_number")
+        headers = {
+            'Content-Type': 'application/json',
+            'x-api-key': partner_key,
+        }
+
+        payload = {
+            'prime': prime,
+            'partner_key': partner_key,
+            'merchant_id': merchant_id,
+            'details': 'TapPay Payment',
+            'amount': 1,
+            "order_number":order_number,
+            "cardholder": {
+                "phone_number": phone_number,
+                "name": name,
+                "email": email,
+            },
+            'remember': True, 
+        }
+        
+        response = requests.post('https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime', json=payload, headers=headers)
+        response_data = response.json()
+        print("response_data",response_data)
+        if 'status' in response_data and response_data['status'] == 0:
+            order_number = response_data['data']['order_number']
+            response_data = {
+                "data": {
+                    "number": order_number,
+                    "payment": {
+                        "status": 0,
+                        "message": "付款成功"
+                    }
+                }
+            }
+            print("成功走完",order_number)
+            return jsonify(response_data), 200
+        else:
+            return jsonify({'error': True, 'message': '付款失敗'}), 400
+
+    except Exception as e:
+        return jsonify({'error': True, 'message': str(e)}), 500
+
+
 app.debug = True
 app.run(host="0.0.0.0", port=3000)

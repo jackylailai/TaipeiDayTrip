@@ -226,6 +226,7 @@ const attractionDate = document.querySelector('.reservation-date');
 const attractionTime = document.querySelector('.reservation-time');
 const attractionFare = document.querySelector('.reservation-fare');
 const attractionPlace = document.querySelector('.reservation-place');
+let order={};
 async function fetchAndDisplayBookings() {
     try {
         const response = await fetch('/api/booking', {
@@ -239,7 +240,6 @@ async function fetchAndDisplayBookings() {
             const data = await response.json();
             console.log("fetch到預定",data);
             if (data!==null) {
-                console.log("進入頁面整理");
                 attractionImage.src = data.data.attraction.image;
                 attractionName.textContent = `台北一日遊 ： ${data.data.attraction.name}`;
                 attractionDate.textContent = `${data.data.date}`;
@@ -250,7 +250,20 @@ async function fetchAndDisplayBookings() {
                 };
                 attractionFare.textContent = `新臺幣：${data.data.price}元`;
                 attractionPlace.textContent = `${data.data.attraction.address}`;
-
+                order = {
+                    price: data.data.price,
+                    trip: {
+                      attraction: {
+                        id: data.data.attraction.id,
+                        name: data.data.attraction.name,
+                        address: data.data.attraction.address,
+                        image: data.data.attraction.image,
+                      },
+                      date: data.data.date,
+                      time: data.time,
+                    },
+                  };
+                  console.log(order,",order在裡面")
                 // 順便處理刪除按鈕
                 const deleteButton = document.querySelector(".icon-delete");
                 deleteButton.addEventListener('click', () => {
@@ -302,3 +315,183 @@ window.addEventListener('load', () => {
     checkUserLoggedIn(); 
     fetchAndDisplayBookings();
 });
+console.log(order);
+let contact ={};
+const cardNumber = document.getElementById("card-number");
+const cardExpiration = document.getElementById("card-expiration-date");
+const cardCCV = document.getElementById("card-ccv");
+const nameField = document.getElementById("name");
+const emailField = document.getElementById("email");
+const phoneNumberField = document.getElementById("phoneNumber");
+
+const payButton = document.querySelector(".paybutton");
+TPDirect.setupSDK("137122", "app_U0LAC72mswo8odCgupXJXPEds7Xohq4JbwjPjjT1ySLdEEdCnt7oSbKU2t2c", 'sandbox');
+let fields = {
+    number: {
+        // css selector
+        element: '#card-number',
+        placeholder: '**** **** **** ****'
+    },
+    expirationDate: {
+        // DOM object
+        element: document.getElementById('card-expiration-date'),
+        placeholder: 'MM / YY'
+    },
+    ccv: {
+        element: '#card-ccv',
+        placeholder: 'CCV'
+    },
+}
+TPDirect.card.setup({
+    // Display ccv field
+    fields: fields,
+    styles: {
+        // Style all elements
+        'input': {
+            'color': 'gray',
+        },
+        // Styling ccv field
+        'input.ccv': {
+            // 'font-size': '16px'
+        },
+        // Styling expiration-date field
+        'input.expiration-date': {
+            // 'font-size': '16px'
+        },
+        // Styling card-number field
+        'input.card-number': {
+            // 'font-size': '16px'
+        },
+        // style focus state
+        ':focus': {
+            // 'color': 'black'
+        },
+        // style valid state
+        '.valid': {
+            'color': 'green'
+        },
+        // style invalid state
+        '.invalid': {
+            'color': 'red'
+        },
+        // Media queries
+        // Note that these apply to the iframe, not the root window.
+        '@media screen and (max-width: 400px)': {
+            'input': {
+                'color': 'orange'
+            }
+        }
+    },
+    // 此設定會顯示卡號輸入正確後，會顯示前六後四碼信用卡卡號
+    isMaskCreditCardNumber: true,
+    maskCreditCardNumberRange: {
+        beginIndex: 6,
+        endIndex: 11
+    }
+})
+TPDirect.card.onUpdate(function (update) {
+    // update.canGetPrime === true
+    // --> you can call TPDirect.card.getPrime()
+    if (update.canGetPrime) {
+        // Enable submit Button to get prime.
+        // submitButton.removeAttribute('disabled')
+    } else {
+        // Disable submit Button to get prime.
+        // submitButton.setAttribute('disabled', true)
+    }
+
+    // cardTypes = ['mastercard', 'visa', 'jcb', 'amex', 'unionpay','unknown']
+    if (update.cardType === 'visa') {
+        // Handle card type visa.
+    }
+
+    // number 欄位是錯誤的
+    if (update.status.number === 2) {
+        // setNumberFormGroupToError()
+    } else if (update.status.number === 0) {
+        // setNumberFormGroupToSuccess()
+    } else {
+        // setNumberFormGroupToNormal()
+    }
+
+    if (update.status.expiry === 2) {
+        // setNumberFormGroupToError()
+    } else if (update.status.expiry === 0) {
+        // setNumberFormGroupToSuccess()
+    } else {
+        // setNumberFormGroupToNormal()
+    }
+
+    if (update.status.ccv === 2) {
+        // setNumberFormGroupToError()
+    } else if (update.status.ccv === 0) {
+        // setNumberFormGroupToSuccess()
+    } else {
+        // setNumberFormGroupToNormal()
+    }
+})
+// let prime;
+console.log(order,"order");
+payButton.addEventListener("click", () => {
+    const cardNumberValue = cardNumber.value;
+    const cardExpirationValue = cardExpiration.value;
+    const cardCCVValue = cardCCV.value;
+    const nameValue = nameField.value;
+    const emailValue = emailField.value;
+    const phoneNumberValue = phoneNumberField.value;
+    contact={
+        'name':nameValue,
+        'email':emailValue,
+        'phone':phoneNumberValue,
+    }
+    // TPDirect.card.setup(cardNumber);
+    // 取得 TapPay Fields 的 status
+    const tappayStatus = TPDirect.card.getTappayFieldsStatus();
+
+    // 確認是否可以 getPrime
+    // console.log(tappayStatus);
+    if (tappayStatus.canGetPrime === false) {
+        alert('can not get prime');
+        return;
+    }
+    // Get prime
+    TPDirect.card.getPrime((result) => {
+        if (result.status !== 0) {
+            // console.log("失敗status",result.status)
+            alert('get prime error ' + result.msg);
+            return;
+        }
+        const prime = result.card.prime;
+        console.log(`${prime},${order}`);
+        const requestData = {
+            prime: prime,
+            order: window.order,
+            contact: contact,
+        };
+    
+
+        fetch("/api/orders", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.error) {
+                alert("付款失敗：" + data.message);
+            } else {
+                alert("付款成功，訂單號碼" + data.data.number);
+            }
+        })
+        .catch((error) => {
+            console.error("請求失敗：" + error);
+            alert("請求失敗：");
+        });
+        alert('get prime 成功，prime: ' + result.card.prime);
+         // send prime to your server, to pay with Pay by Prime API .
+        // Pay By Prime Docs: https://docs.tappaysdk.com/tutorial/zh/back.html#pay-by-prime-api
+    });
+    
+    });
