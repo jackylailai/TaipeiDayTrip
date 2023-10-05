@@ -226,6 +226,7 @@ const attractionDate = document.querySelector('.reservation-date');
 const attractionTime = document.querySelector('.reservation-time');
 const attractionFare = document.querySelector('.reservation-fare');
 const attractionPlace = document.querySelector('.reservation-place');
+
 let order={};
 async function fetchAndDisplayBookings() {
     try {
@@ -243,13 +244,14 @@ async function fetchAndDisplayBookings() {
                 attractionImage.src = data.data.attraction.image;
                 attractionName.textContent = `台北一日遊 ： ${data.data.attraction.name}`;
                 attractionDate.textContent = `${data.data.date}`;
-                if(data.time==="morning"){
+                if(data.data.time==="morning"){
                     attractionTime.textContent = `早上9點到下午4點`;
                 }else{
                     attractionTime.textContent = `下午2點到晚上9點`;
                 };
                 attractionFare.textContent = `新臺幣：${data.data.price}元`;
                 attractionPlace.textContent = `${data.data.attraction.address}`;
+                console.log(data.data.time,"data.data.time")
                 order = {
                     price: data.data.price,
                     trip: {
@@ -260,11 +262,22 @@ async function fetchAndDisplayBookings() {
                         image: data.data.attraction.image,
                       },
                       date: data.data.date,
-                      time: data.time,
+                      time: data.data.time,
                     },
                   };
-                  console.log(order,",order在裡面")
+                  console.log(order,",order在第一次fetch接受資料裡面")
                 // 順便處理刪除按鈕
+            
+                const orderElement = document.getElementById('order-element');
+                orderElement.setAttribute('data-price', order.price);
+                orderElement.setAttribute('data-attraction-id', order.trip.attraction.id);
+                orderElement.setAttribute('data-attraction-name', order.trip.attraction.name);
+                orderElement.setAttribute('data-attraction-address', order.trip.attraction.address);
+                orderElement.setAttribute('data-attraction-image', order.trip.attraction.image);
+                orderElement.setAttribute('data-trip-date', order.trip.date);
+                orderElement.setAttribute('data-trip-time', order.trip.time);
+
+                console.log(orderElement,",orderelement建立")
                 const deleteButton = document.querySelector(".icon-delete");
                 deleteButton.addEventListener('click', () => {
                     deleteBooking(data.data.attraction.name);
@@ -281,6 +294,15 @@ async function fetchAndDisplayBookings() {
                     parentContainer.appendChild(newDiv);
                 };
         } else {
+            const hideableElements = document.querySelector('.hideable-elements');
+            hideableElements.style.display = 'none';
+            console.error('沒行程');
+            const parentContainer = document.querySelector('.container-title'); 
+            const newDiv = document.createElement('div');
+            newDiv.classList.add('container-title-null'); 
+            newDiv.textContent = '目前沒有任何待預訂的行程';
+
+            parentContainer.appendChild(newDiv);
             console.error('獲取預訂失敗');
         }
     } catch (error) {
@@ -315,7 +337,6 @@ window.addEventListener('load', () => {
     checkUserLoggedIn(); 
     fetchAndDisplayBookings();
 });
-console.log(order);
 let contact ={};
 const cardNumber = document.getElementById("card-number");
 const cardExpiration = document.getElementById("card-expiration-date");
@@ -439,7 +460,7 @@ payButton.addEventListener("click", () => {
     const nameValue = nameField.value;
     const emailValue = emailField.value;
     const phoneNumberValue = phoneNumberField.value;
-    contact={
+    const contact={
         'name':nameValue,
         'email':emailValue,
         'phone':phoneNumberValue,
@@ -462,11 +483,27 @@ payButton.addEventListener("click", () => {
             return;
         }
         const prime = result.card.prime;
-        console.log(`${prime},${order}`);
+        
+        const orderElement = document.getElementById('order-element');
+        const order = {
+            price: orderElement.getAttribute('data-price'),
+            trip: {
+                attraction: {
+                    id: orderElement.getAttribute('data-attraction-id'),
+                    name: orderElement.getAttribute('data-attraction-name'),
+                    address: orderElement.getAttribute('data-attraction-address'),
+                    image: orderElement.getAttribute('data-attraction-image'),
+                },
+                date: orderElement.getAttribute('data-trip-date'),
+                time: orderElement.getAttribute('data-trip-time'),
+            },
+            contact: contact,
+        };
+        console.log(`${prime},${order},${contact}`);
+
         const requestData = {
             prime: prime,
-            order: window.order,
-            contact: contact,
+            order: order,
         };
     
 
@@ -482,14 +519,19 @@ payButton.addEventListener("click", () => {
             if (data.error) {
                 alert("付款失敗：" + data.message);
             } else {
-                alert("付款成功，訂單號碼" + data.data.number);
+                alert("付款成功，訂單號碼" + data.data.number + "；導引您至編號頁面！");
+                if (data.data.number) {
+                    const orderNumber = data.data.number;
+                    const thankyouUrl = `/thankyou?number=${orderNumber}`;
+                    window.location.href = thankyouUrl;
+                }
             }
         })
         .catch((error) => {
             console.error("請求失敗：" + error);
             alert("請求失敗：");
         });
-        alert('get prime 成功，prime: ' + result.card.prime);
+        console.log('get prime 成功，prime: ' + result.card.prime);
          // send prime to your server, to pay with Pay by Prime API .
         // Pay By Prime Docs: https://docs.tappaysdk.com/tutorial/zh/back.html#pay-by-prime-api
     });
