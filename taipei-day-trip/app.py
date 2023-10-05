@@ -496,6 +496,8 @@ def get_order(orderNumber):
         order_info = get_order_info(orderNumber)
         if order_info:
             attraction_info = get_attraction_info(order_info["attraction_id"])
+            images_str = attraction_info["images"]
+            image_list = json.loads(images_str)
             contact_info = get_contact_info(order_info["contact_id"])
             # print(f"{attraction_info},,,{contact_info}")
             if attraction_info and contact_info:
@@ -508,7 +510,7 @@ def get_order(orderNumber):
                                 "id": attraction_info["id"],
                                 "name": attraction_info["name"],
                                 "address": attraction_info["address"],
-                                "image": attraction_info["images"][0]
+                                "image": image_list[0]
                             },
                             "date": order_info["Date"],
                             "time": order_info["Time"]
