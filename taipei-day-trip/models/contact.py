@@ -1,4 +1,4 @@
-from model import create_db_connection
+from .model import create_db_connection
 
 
 
@@ -13,7 +13,7 @@ def insert_contact(name, email, phone):
             contact_row = cursor.fetchone()
             if contact_row is not None:
                 contact__ = contact_row[0]
-                print("有東西")
+                print("有留下聯絡資訊過，如果電話不一樣不會進來")
             else:
                 query = "INSERT IGNORE INTO contact (name, email, phone) VALUES (%s, %s, %s)"
                 values = (name, email, phone)
@@ -24,7 +24,7 @@ def insert_contact(name, email, phone):
                 contact_row = cursor.fetchone()
                 if contact_row is not None:
                     contact__ = contact_row[0]
-                    print("insert裡面的contact__")
+                    print("insert contact裡面早就有資料")
                 else:
                     contact__ = None
 

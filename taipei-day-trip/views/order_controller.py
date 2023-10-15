@@ -2,23 +2,26 @@ from flask import *
 from models.booking import *
 from models.user import *
 from models.order import *
-from booking_controller import is_user_authenticated
+from models.attraction import *
+from .booking_controller import is_user_authenticated
 from dateutil import parser
 import time
 from models.contact import *
 import requests
-from app import partner_key,merchant_id
+from config import partner_key,merchant_id
 
 order_blueprint = Blueprint('order', __name__)
 
 @order_blueprint.route('/api/orders', methods=['POST'])
 def create_order_view():
+    print("收到/api/orders")
     try:
         data = request.get_json()
+        print(data,"data")
         identified = is_user_authenticated()
         if not identified:
             return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
-        print(data,"data")
+        print("訂單收到錢通過jwt驗證")
         order = data.get("order")
         contact = order.get("contact")
         price = int(order.get("price"))
@@ -87,16 +90,46 @@ def create_order_view():
     
 
 
-@order_blueprint.route('/api/orders/<string:orderNumber>', methods=['GET'])
+@order_blueprint.route('/api/order/<string:orderNumber>', methods=['GET'])
 def get_order_view(orderNumber):
-    user_id = is_user_authenticated()
-
-    if not user_id:
+    identified = is_user_authenticated()
+    if not identified:
         return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
-
-    order_info = get_order(orderNumber)
-
-    if not order_info:
-        return jsonify({'error': True, 'message': '訂單不存在'}), 404
-
-    return jsonify(order_info), 200
+    try:
+        print("帳號驗證有過")
+        order_info = get_order_info(orderNumber)
+        print("近來get_order_info",order_info)
+        if order_info:
+            attraction_info = get_attraction_info(order_info["attraction_id"])
+            images_str = attraction_info["images"]
+            image_list = json.loads(images_str)
+            contact_info = get_contact_info(order_info["contact_id"])
+            # print(f"{attraction_info},,,{contact_info}")
+            if attraction_info and contact_info:
+                result = {
+                    "data": {
+                        "number": order_info["number"],
+                        "price": order_info["price"],
+                        "trip": {
+                            "attraction": {
+                                "id": attraction_info["id"],
+                                "name": attraction_info["name"],
+                                "address": attraction_info["address"],
+                                "image": image_list[0]
+                            },
+                            "date": order_info["Date"],
+                            "time": order_info["Time"]
+                        },
+                        "contact": {
+                            "name": contact_info["name"],
+                            "email": contact_info["email"],
+                            "phone": contact_info["phone"]
+                        },
+                        "status": order_info["status"]
+                    }
+                }
+                print("order_result",result)
+                return result
+    except Exception as e:
+        print("error：", str(e))
+        return jsonify({"error": True, "message": "server錯誤"}), 500        

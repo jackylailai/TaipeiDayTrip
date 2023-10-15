@@ -1,4 +1,4 @@
-from model import create_db_connection
+from .model import create_db_connection
 
 
 

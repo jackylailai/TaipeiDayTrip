@@ -12,27 +12,28 @@ from views.attraction_controller import *
 from views.user_controller import *
 from views.booking_controller import *
 from views.order_controller import *
+
 # import logging
 # logging.basicConfig(filename='app.log', level=logging.DEBUG)
 
 # 載入.env文件中的環境變數
-load_dotenv()
-partner_key=os.environ.get("partner_key")
-print("partnerkey",partner_key)
-merchant_id=os.environ.get("merchant_id")
-print("merchant_id",merchant_id)
+# load_dotenv()
+# partner_key=os.environ.get("partner_key")
+# print("partnerkey",partner_key)
+# merchant_id=os.environ.get("merchant_id")
+# print("merchant_id",merchant_id)
 # 從環境變數中讀取資料庫配置
-db_config = {
-    "host": os.environ.get("DB_HOST"),
-    "user": os.environ.get("DB_USER"),
-    "password": os.environ.get("DB_PASSWORD"),
-    "database": os.environ.get("DB_DATABASE"),
-}
-db_pool = pooling.MySQLConnectionPool(pool_name="my_pool", pool_size=5, **db_config)
+# db_config = {
+#     "host": os.environ.get("DB_HOST"),
+#     "user": os.environ.get("DB_USER"),
+#     "password": os.environ.get("DB_PASSWORD"),
+#     "database": os.environ.get("DB_DATABASE"),
+# }
+# db_pool = pooling.MySQLConnectionPool(pool_name="my_pool", pool_size=5, **db_config)
 # connection = mysql.connector.connect(**db_config)
 # 建立游標
 # cursor其實盡可能不要共用，因為同時開需求就會亂掉
-print(db_pool,":db_pool")
+# print(db_pool,":db_pool")
 
 app=Flask(__name__)
 #好像會引起fetch有問題
@@ -57,6 +58,11 @@ def booking():
 @app.route("/thankyou")
 def thankyou():
 	return render_template("thankyou.html")
+
+app.debug = True
+app.run(host="0.0.0.0", port=3000)
+
+
 # @app.route("/api/attractions", methods=["GET"])
 # def get_attractions():
 #     try:
@@ -449,51 +455,51 @@ def thankyou():
 #     except Exception as e:
 #         return jsonify({'error': True, 'message': str(e)}), 500
     
-@app.route('/api/order/<string:orderNumber>', methods=['GET'])
-def get_order(orderNumber):
-    print("剛進來")
-    decoded_token=is_user_authenticated()
-    if not decoded_token: 
-        print("token驗證沒過") 
-        return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
-    try:
-        print("帳號驗證有過")
-        order_info = get_order_info(orderNumber)
-        print("近來get_order_info",order_info)
-        if order_info:
-            attraction_info = get_attraction_info(order_info["attraction_id"])
-            images_str = attraction_info["images"]
-            image_list = json.loads(images_str)
-            contact_info = get_contact_info(order_info["contact_id"])
-            # print(f"{attraction_info},,,{contact_info}")
-            if attraction_info and contact_info:
-                result = {
-                    "data": {
-                        "number": order_info["number"],
-                        "price": order_info["price"],
-                        "trip": {
-                            "attraction": {
-                                "id": attraction_info["id"],
-                                "name": attraction_info["name"],
-                                "address": attraction_info["address"],
-                                "image": image_list[0]
-                            },
-                            "date": order_info["Date"],
-                            "time": order_info["Time"]
-                        },
-                        "contact": {
-                            "name": contact_info["name"],
-                            "email": contact_info["email"],
-                            "phone": contact_info["phone"]
-                        },
-                        "status": order_info["status"]
-                    }
-                }
-                print("order_result",result)
-                return result
-    except Exception as e:
-        print("error：", str(e))
-        return jsonify({"error": True, "message": "server錯誤"}), 500
+# @app.route('/api/order/<string:orderNumber>', methods=['GET'])
+# def get_order(orderNumber):
+#     print("剛進來")
+#     decoded_token=is_user_authenticated()
+#     if not decoded_token: 
+#         print("token驗證沒過") 
+#         return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
+#     try:
+#         print("帳號驗證有過")
+#         order_info = get_order_info(orderNumber)
+#         print("近來get_order_info",order_info)
+#         if order_info:
+#             attraction_info = get_attraction_info(order_info["attraction_id"])
+#             images_str = attraction_info["images"]
+#             image_list = json.loads(images_str)
+#             contact_info = get_contact_info(order_info["contact_id"])
+#             # print(f"{attraction_info},,,{contact_info}")
+#             if attraction_info and contact_info:
+#                 result = {
+#                     "data": {
+#                         "number": order_info["number"],
+#                         "price": order_info["price"],
+#                         "trip": {
+#                             "attraction": {
+#                                 "id": attraction_info["id"],
+#                                 "name": attraction_info["name"],
+#                                 "address": attraction_info["address"],
+#                                 "image": image_list[0]
+#                             },
+#                             "date": order_info["Date"],
+#                             "time": order_info["Time"]
+#                         },
+#                         "contact": {
+#                             "name": contact_info["name"],
+#                             "email": contact_info["email"],
+#                             "phone": contact_info["phone"]
+#                         },
+#                         "status": order_info["status"]
+#                     }
+#                 }
+#                 print("order_result",result)
+#                 return result
+#     except Exception as e:
+#         print("error：", str(e))
+#         return jsonify({"error": True, "message": "server錯誤"}), 500
 # def insert_contact(name, email, phone):
 #     try:
 #         print("insert contact")
@@ -604,6 +610,3 @@ def get_order(orderNumber):
 #         print("發生異常：", str(e))
 #         return None
 
-
-app.debug = True
-app.run(host="0.0.0.0", port=3000)

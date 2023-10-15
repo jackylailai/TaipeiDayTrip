@@ -1,7 +1,7 @@
 import jwt
 from flask import jsonify
 from mysql.connector import pooling
-from model import create_db_connection
+from .model import create_db_connection
 
 
 

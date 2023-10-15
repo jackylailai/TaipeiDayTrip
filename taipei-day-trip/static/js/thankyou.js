@@ -145,15 +145,7 @@ document.getElementById('signupButton').addEventListener('click', async () => {
 //處理每次載入頁面 查看token
 // const nameInput = document.getElementById("name");
 // const emailInput = document.getElementById("email");
-const order_number = document.querySelector(".reservation-title")
 
-const urlParams = new URLSearchParams(window.location.search);
-const orderNumberValue = urlParams.get('number');
-if (orderNumberValue) {
-  order_number.textContent = orderNumberValue;
-} else {
-  order_number.textContent = "找不到訂單號碼";
-}
 async function checkTokenValidity() {
     const token = localStorage.getItem('token');
 
@@ -226,6 +218,16 @@ document.getElementById('reservation-top').addEventListener('click', () => {
     }
 });
 
+
+const order_number = document.querySelector(".reservation-title")
+
+const urlParams = new URLSearchParams(window.location.search);
+const orderNumberValue = urlParams.get('number');
+if (orderNumberValue) {
+  order_number.textContent = orderNumberValue;
+} else {
+  order_number.textContent = "找不到訂單號碼";
+}
 
 
 const apiUrl = `/api/order/${orderNumberValue}`;
