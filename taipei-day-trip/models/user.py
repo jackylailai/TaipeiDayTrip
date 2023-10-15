@@ -53,3 +53,22 @@ def generate_token(user):
     token_bytes = token.encode('utf-8')
     print("token_byte",token_bytes)
     return token_bytes.decode('utf-8')
+
+def get_user_id_by_email(email):
+    # cursor = None
+    # connection = None
+    try:
+        # connection = mysql.connector.connect(**db_config)
+        with create_db_connection() as connection, connection.cursor() as cursor:
+            query = "SELECT id FROM users WHERE email = %s"
+            values = (email,)
+            cursor.execute(query, values)
+            user_id = cursor.fetchone()
+            print(user_id,"找到user_id")
+            if user_id:
+                return user_id[0]
+            else:
+                return None
+    except Exception as e:
+        print("error：", str(e))
+        return None

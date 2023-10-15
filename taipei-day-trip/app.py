@@ -10,6 +10,8 @@ from dateutil import parser
 from mysql.connector import pooling
 from views.attraction_controller import *
 from views.user_controller import *
+from views.booking_controller import *
+from views.order_controller import *
 # import logging
 # logging.basicConfig(filename='app.log', level=logging.DEBUG)
 
@@ -38,6 +40,9 @@ app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.register_blueprint(attraction_blueprint)
 app.register_blueprint(user_blueprint)
+app.register_blueprint(booking_blueprint)
+app.register_blueprint(order_blueprint)
+
 
 # Pages
 @app.route("/")
@@ -249,200 +254,200 @@ def thankyou():
 #     except Exception as e:
 #         return jsonify({"error": True, "message": str(e)}), 500
 
-@app.route('/api/booking', methods=['POST'])
-def create_booking():
-    decoded_token=is_user_authenticated()
-    if not decoded_token:  # 檢查使用者是否未登入
-        return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
-    try:
-        user_id = decoded_token['id']
-        # user_name = decoded_token['name']
-        # user_email = decoded_token['email']
+# @app.route('/api/booking', methods=['POST'])
+# def create_booking():
+#     decoded_token=is_user_authenticated()
+#     if not decoded_token:  # 檢查使用者是否未登入
+#         return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
+#     try:
+#         user_id = decoded_token['id']
+#         # user_name = decoded_token['name']
+#         # user_email = decoded_token['email']
 
-        attraction_id = request.form.get('attractionId')
-        date = request.form.get('date')
-        time = request.form.get('time')
-        price = request.form.get('price')
-        image = request.form.get('image')
-        with db_pool.get_connection() as connection, connection.cursor() as cursor:
-            # connection = mysql.connector.connect(**db_config)
-            print(connection,"connection")
-
-
-            delete_query = "DELETE FROM booking WHERE user_id = %s"
-            cursor.execute(delete_query,(user_id,))
-            connection.commit()
-
-            insert_query = "INSERT INTO booking (booking_attraction_id, date, time, price,image,user_id) VALUES (%s, %s, %s, %s, %s, %s)"
-            data = (attraction_id, date, time, price, image, user_id)
-            print(data)
-            cursor.execute(insert_query, data,)
-            connection.commit()
+#         attraction_id = request.form.get('attractionId')
+#         date = request.form.get('date')
+#         time = request.form.get('time')
+#         price = request.form.get('price')
+#         image = request.form.get('image')
+#         with db_pool.get_connection() as connection, connection.cursor() as cursor:
+#             # connection = mysql.connector.connect(**db_config)
+#             print(connection,"connection")
 
 
-            return jsonify({'message': '預約成功'}), 200
+#             delete_query = "DELETE FROM booking WHERE user_id = %s"
+#             cursor.execute(delete_query,(user_id,))
+#             connection.commit()
 
-    except Exception as e:
-        print("Error:", str(e))
-        return jsonify({'error': True, 'message': '預約失敗'}), 400
+#             insert_query = "INSERT INTO booking (booking_attraction_id, date, time, price,image,user_id) VALUES (%s, %s, %s, %s, %s, %s)"
+#             data = (attraction_id, date, time, price, image, user_id)
+#             print(data)
+#             cursor.execute(insert_query, data,)
+#             connection.commit()
+
+
+#             return jsonify({'message': '預約成功'}), 200
+
+#     except Exception as e:
+#         print("Error:", str(e))
+#         return jsonify({'error': True, 'message': '預約失敗'}), 400
     
-@app.route('/api/booking', methods=['GET'])
-def get_bookings():
-    decoded_token=is_user_authenticated()
-    if not decoded_token:  # 檢查使用者是否未登入
-        return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
-    try:
-        print(decoded_token,"token解讀出的資料")
-        user_id = decoded_token['id']
-        # user_name = decoded_token['name']
-        # user_email = decoded_token['email']
-        with db_pool.get_connection() as connection, connection.cursor() as cursor:
-        # connection = mysql.connector.connect(**db_config)
-            cursor.execute("""
-                SELECT b.date, b.price, b.time, b.image, a.name, a.address,a.id
-                FROM booking AS b
-                JOIN attractions AS a ON b.booking_attraction_id = a.id
-                WHERE b.user_id = %s
-                LIMIT 1
-            """, (user_id,))
+# @app.route('/api/booking', methods=['GET'])
+# def get_bookings():
+#     decoded_token=is_user_authenticated()
+#     if not decoded_token:  # 檢查使用者是否未登入
+#         return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
+#     try:
+#         print(decoded_token,"token解讀出的資料")
+#         user_id = decoded_token['id']
+#         # user_name = decoded_token['name']
+#         # user_email = decoded_token['email']
+#         with db_pool.get_connection() as connection, connection.cursor() as cursor:
+#         # connection = mysql.connector.connect(**db_config)
+#             cursor.execute("""
+#                 SELECT b.date, b.price, b.time, b.image, a.name, a.address,a.id
+#                 FROM booking AS b
+#                 JOIN attractions AS a ON b.booking_attraction_id = a.id
+#                 WHERE b.user_id = %s
+#                 LIMIT 1
+#             """, (user_id,))
 
-            booking_data = cursor.fetchone() 
-            print("time,",booking_data[2])
-            print("進來檢查登入資料庫東西booking_data",booking_data)
-            if booking_data:
-                response_data = {
-                    "attraction": {
-                        "id":booking_data[6],
-                        "name": booking_data[4],  
-                        "address": booking_data[5],  
-                        "image": booking_data[3], 
-                    },
-                    "date": booking_data[0],  
-                    "price": booking_data[1],  
-                    "time": booking_data[2],  
-                }
-                print(response_data)
-                return jsonify({"data": response_data}), 200
+#             booking_data = cursor.fetchone() 
+#             print("time,",booking_data[2])
+#             print("進來檢查登入資料庫東西booking_data",booking_data)
+#             if booking_data:
+#                 response_data = {
+#                     "attraction": {
+#                         "id":booking_data[6],
+#                         "name": booking_data[4],  
+#                         "address": booking_data[5],  
+#                         "image": booking_data[3], 
+#                     },
+#                     "date": booking_data[0],  
+#                     "price": booking_data[1],  
+#                     "time": booking_data[2],  
+#                 }
+#                 print(response_data)
+#                 return jsonify({"data": response_data}), 200
 
-            return jsonify(None), 200
+#             return jsonify(None), 200
 
-    except Exception as e:
-        return jsonify({"error": True, "message": str(e)}), 500
-
-
-@app.route('/api/booking', methods=['DELETE'])
-def delete_booking():
-    decoded_token=is_user_authenticated()
-    if not decoded_token:  
-        return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
-    try:
-        user_id = decoded_token['id']
-        # user_name = decoded_token['name']
-        # user_email = decoded_token['email']
-        with db_pool.get_connection() as connection, connection.cursor() as cursor:
-            # connection = mysql.connector.connect(**db_config)
-            print(cursor)
-            query = "DELETE FROM booking WHERE user_id = %s"
-            cursor.execute(query,(user_id,))
-            print(cursor,"delete")
-            connection.commit()
-
-            if cursor.rowcount > 0:
-                return jsonify({"ok": True}), 200
-            else:
-                return jsonify({"error": True, "message": "找不到預定"}), 404
-
-    except Exception as e:
-        print("刪除時發生錯誤", str(e))
-        return jsonify({"error": True, "message": "删除時發生錯誤"}), 500   
-
-def is_user_authenticated():
-    token = request.headers.get('Authorization')
-    # print(token,"token")
-    if not token:
-        return False  
-    try:
-        decoded_token = jwt.decode(token, secret_key, algorithms=['HS256'])
-        # print(decoded_token,"decoded_token")
-        return decoded_token
-    except jwt.ExpiredSignatureError:
-        return False  
-    except jwt.InvalidTokenError:
-        return False  
+#     except Exception as e:
+#         return jsonify({"error": True, "message": str(e)}), 500
 
 
+# @app.route('/api/booking', methods=['DELETE'])
+# def delete_booking():
+#     decoded_token=is_user_authenticated()
+#     if not decoded_token:  
+#         return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
+#     try:
+#         user_id = decoded_token['id']
+#         # user_name = decoded_token['name']
+#         # user_email = decoded_token['email']
+#         with db_pool.get_connection() as connection, connection.cursor() as cursor:
+#             # connection = mysql.connector.connect(**db_config)
+#             print(cursor)
+#             query = "DELETE FROM booking WHERE user_id = %s"
+#             cursor.execute(query,(user_id,))
+#             print(cursor,"delete")
+#             connection.commit()
 
-@app.route('/api/orders', methods=['POST'])
-def create_order():
-    try:
-        data = request.get_json()
-        print(data,"data")
-        order = data.get("order")
-        contact = order.get("contact")
-        price = int(order.get("price"))
-        trip = order.get("trip")
-        attraction_date = trip.get("date")
-        attraction_time = trip.get("time")
-        attraction = trip.get("attraction")
-        attraction_id = int(attraction.get("id"))
-        name = contact.get("name")
-        prime = data.get("prime")
-        email = contact.get("email")
-        phone_number = contact.get("phone")
+#             if cursor.rowcount > 0:
+#                 return jsonify({"ok": True}), 200
+#             else:
+#                 return jsonify({"error": True, "message": "找不到預定"}), 404
 
-        attraction_date = parser.parse(attraction_date)
-        # contact_id = 1 
-        contact_id=insert_contact(name, email, phone_number)
-        print(contact_id)
-        current_time = int(time.time() * 1000)
-        order_number=str(current_time) 
-        print(order_number,"order_number")
-        headers = {
-            'Content-Type': 'application/json',
-            'x-api-key': partner_key,
-        }
+#     except Exception as e:
+#         print("刪除時發生錯誤", str(e))
+#         return jsonify({"error": True, "message": "删除時發生錯誤"}), 500   
 
-        payload = {
-            'prime': prime,
-            'partner_key': partner_key,
-            'merchant_id': merchant_id,
-            'details': 'TapPay Payment',
-            'amount': price,
-            "order_number":order_number,
-            "cardholder": {
-                "phone_number": phone_number,
-                "name": name,
-                "email": email,
-            },
-            'remember': True, 
-        }
+# def is_user_authenticated():
+#     token = request.headers.get('Authorization')
+#     # print(token,"token")
+#     if not token:
+#         return False  
+#     try:
+#         decoded_token = jwt.decode(token, secret_key, algorithms=['HS256'])
+#         # print(decoded_token,"decoded_token")
+#         return decoded_token
+#     except jwt.ExpiredSignatureError:
+#         return False  
+#     except jwt.InvalidTokenError:
+#         return False  
+
+
+
+# @app.route('/api/orders', methods=['POST'])
+# def create_order():
+#     try:
+#         data = request.get_json()
+#         print(data,"data")
+#         order = data.get("order")
+#         contact = order.get("contact")
+#         price = int(order.get("price"))
+#         trip = order.get("trip")
+#         attraction_date = trip.get("date")
+#         attraction_time = trip.get("time")
+#         attraction = trip.get("attraction")
+#         attraction_id = int(attraction.get("id"))
+#         name = contact.get("name")
+#         prime = data.get("prime")
+#         email = contact.get("email")
+#         phone_number = contact.get("phone")
+
+#         attraction_date = parser.parse(attraction_date)
+#         # contact_id = 1 
+#         contact_id=insert_contact(name, email, phone_number)
+#         print(contact_id)
+#         current_time = int(time.time() * 1000)
+#         order_number=str(current_time) 
+#         print(order_number,"order_number")
+#         headers = {
+#             'Content-Type': 'application/json',
+#             'x-api-key': partner_key,
+#         }
+
+#         payload = {
+#             'prime': prime,
+#             'partner_key': partner_key,
+#             'merchant_id': merchant_id,
+#             'details': 'TapPay Payment',
+#             'amount': price,
+#             "order_number":order_number,
+#             "cardholder": {
+#                 "phone_number": phone_number,
+#                 "name": name,
+#                 "email": email,
+#             },
+#             'remember': True, 
+#         }
         
-        response = requests.post('https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime', json=payload, headers=headers)
-        response_data = response.json()
-        print("response_data",response_data)
-        if response_data['status'] == 0:
-            final_data = {
-                "data": {
-                    "number": order_number,
-                    "payment": {
-                        "status": 0,
-                        "message": "付款成功"
-                    }
-                }
-            }
-            print("成功走完",order_number)
-            status=0
-            insert_order(order_number, price, attraction_id, contact_id, attraction_date,attraction_time, status)
+#         response = requests.post('https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime', json=payload, headers=headers)
+#         response_data = response.json()
+#         print("response_data",response_data)
+#         if response_data['status'] == 0:
+#             final_data = {
+#                 "data": {
+#                     "number": order_number,
+#                     "payment": {
+#                         "status": 0,
+#                         "message": "付款成功"
+#                     }
+#                 }
+#             }
+#             print("成功走完",order_number)
+#             status=0
+#             insert_order(order_number, price, attraction_id, contact_id, attraction_date,attraction_time, status)
 
-            user_id = get_user_id_by_email(email)
-            delete_booking_by_user_id(user_id)
+#             user_id = get_user_id_by_email(email)
+#             delete_booking_by_user_id(user_id)
 
-            return jsonify(final_data), 200
-        else:
-            return jsonify({'error': True, 'message': '付款失敗'}), 400
+#             return jsonify(final_data), 200
+#         else:
+#             return jsonify({'error': True, 'message': '付款失敗'}), 400
 
-    except Exception as e:
-        return jsonify({'error': True, 'message': str(e)}), 500
+#     except Exception as e:
+#         return jsonify({'error': True, 'message': str(e)}), 500
     
 @app.route('/api/order/<string:orderNumber>', methods=['GET'])
 def get_order(orderNumber):
@@ -489,115 +494,115 @@ def get_order(orderNumber):
     except Exception as e:
         print("error：", str(e))
         return jsonify({"error": True, "message": "server錯誤"}), 500
-def insert_contact(name, email, phone):
-    try:
-        print("insert contact")
-        with db_pool.get_connection() as connection, connection.cursor() as cursor:
-            # connection = mysql.connector.connect(**db_config)
-            query = "SELECT id FROM contact WHERE name=%s AND email=%s AND phone=%s"
-            values = (name, email, phone)
-            cursor.execute(query, values)
-            contact_row = cursor.fetchone()
-            if contact_row is not None:
-                contact__ = contact_row[0]
-                print("有東西")
-            else:
-                query = "INSERT IGNORE INTO contact (name, email, phone) VALUES (%s, %s, %s)"
-                values = (name, email, phone)
-                cursor.execute(query, values)
-                connection.commit()
-                query = "SELECT id FROM contact WHERE name=%s AND email=%s AND phone=%s"
-                cursor.execute(query, values)
-                contact_row = cursor.fetchone()
-                if contact_row is not None:
-                    contact__ = contact_row[0]
-                    print("insert裡面的contact__")
-                else:
-                    contact__ = None
+# def insert_contact(name, email, phone):
+#     try:
+#         print("insert contact")
+#         with db_pool.get_connection() as connection, connection.cursor() as cursor:
+#             # connection = mysql.connector.connect(**db_config)
+#             query = "SELECT id FROM contact WHERE name=%s AND email=%s AND phone=%s"
+#             values = (name, email, phone)
+#             cursor.execute(query, values)
+#             contact_row = cursor.fetchone()
+#             if contact_row is not None:
+#                 contact__ = contact_row[0]
+#                 print("有東西")
+#             else:
+#                 query = "INSERT IGNORE INTO contact (name, email, phone) VALUES (%s, %s, %s)"
+#                 values = (name, email, phone)
+#                 cursor.execute(query, values)
+#                 connection.commit()
+#                 query = "SELECT id FROM contact WHERE name=%s AND email=%s AND phone=%s"
+#                 cursor.execute(query, values)
+#                 contact_row = cursor.fetchone()
+#                 if contact_row is not None:
+#                     contact__ = contact_row[0]
+#                     print("insert裡面的contact__")
+#                 else:
+#                     contact__ = None
 
-            print("cursor完",contact__)
-            return contact__
-    except Exception as e:
-        print("error：", str(e))
-        return -1
+#             print("cursor完",contact__)
+#             return contact__
+#     except Exception as e:
+#         print("error：", str(e))
+#         return -1
 
-def insert_order(order_number, price, attraction_id, contact_id, date, time, status):
-    try:
-        with db_pool.get_connection() as connection, connection.cursor() as cursor:
-            # connection = mysql.connector.connect(**db_config)
-            query = "INSERT INTO orders (number, price, attraction_id, contact_id, Date, Time, status) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            values = (order_number, price, attraction_id, contact_id, date, time, status)
-            cursor.execute(query, values,)
-            connection.commit()
-            print("成功insert付費訂單")
-    except Exception as e:
-        print("error：", str(e))
+# def insert_order(order_number, price, attraction_id, contact_id, date, time, status):
+#     try:
+#         with db_pool.get_connection() as connection, connection.cursor() as cursor:
+#             # connection = mysql.connector.connect(**db_config)
+#             query = "INSERT INTO orders (number, price, attraction_id, contact_id, Date, Time, status) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+#             values = (order_number, price, attraction_id, contact_id, date, time, status)
+#             cursor.execute(query, values,)
+#             connection.commit()
+#             print("成功insert付費訂單")
+#     except Exception as e:
+#         print("error：", str(e))
 
-def get_user_id_by_email(email):
-    # cursor = None
-    # connection = None
-    try:
-        # connection = mysql.connector.connect(**db_config)
-        with db_pool.get_connection() as connection, connection.cursor() as cursor:
-            query = "SELECT id FROM users WHERE email = %s"
-            values = (email,)
-            cursor.execute(query, values)
-            user_id = cursor.fetchone()
-            print(user_id,"找到user_id")
-            if user_id:
-                return user_id[0]
-            else:
-                return None
-    except Exception as e:
-        print("error：", str(e))
-        return None
-def delete_booking_by_user_id(user_id):
-    # cursor = None
-    # connection = None
-    try:
-        with db_pool.get_connection() as connection, connection.cursor() as cursor:
-            # connection = mysql.connector.connect(**db_config)
-            query = "DELETE FROM booking WHERE user_id = %s"
-            cursor.execute(query, (user_id,))
-            print(cursor, "delete")
-            connection.commit()
-            print("刪除成功")
-    except Exception as e:
-        print("error：", str(e))
-def get_order_info(order_number):
-    try:
-        with db_pool.get_connection() as connection, connection.cursor(dictionary=True) as cursor:
-            # connection = mysql.connector.connect(**db_config)
-            query_order = "SELECT * FROM orders WHERE number = %s"
-            cursor.execute(query_order, (order_number,))
-            order_data = cursor.fetchone()
-            return order_data
-    except Exception as e:
-        print("error：", str(e))
-        return None
+# def get_user_id_by_email(email):
+#     # cursor = None
+#     # connection = None
+#     try:
+#         # connection = mysql.connector.connect(**db_config)
+#         with db_pool.get_connection() as connection, connection.cursor() as cursor:
+#             query = "SELECT id FROM users WHERE email = %s"
+#             values = (email,)
+#             cursor.execute(query, values)
+#             user_id = cursor.fetchone()
+#             print(user_id,"找到user_id")
+#             if user_id:
+#                 return user_id[0]
+#             else:
+#                 return None
+#     except Exception as e:
+#         print("error：", str(e))
+#         return None
+# def delete_booking_by_user_id(user_id):
+#     # cursor = None
+#     # connection = None
+#     try:
+#         with db_pool.get_connection() as connection, connection.cursor() as cursor:
+#             # connection = mysql.connector.connect(**db_config)
+#             query = "DELETE FROM booking WHERE user_id = %s"
+#             cursor.execute(query, (user_id,))
+#             print(cursor, "delete")
+#             connection.commit()
+#             print("刪除成功")
+#     except Exception as e:
+#         print("error：", str(e))
+# def get_order_info(order_number):
+#     try:
+#         with db_pool.get_connection() as connection, connection.cursor(dictionary=True) as cursor:
+#             # connection = mysql.connector.connect(**db_config)
+#             query_order = "SELECT * FROM orders WHERE number = %s"
+#             cursor.execute(query_order, (order_number,))
+#             order_data = cursor.fetchone()
+#             return order_data
+#     except Exception as e:
+#         print("error：", str(e))
+#         return None
 
-def get_attraction_info(attraction_id):
-    try:
-        with db_pool.get_connection() as connection, connection.cursor(dictionary=True) as cursor:
-            # connection = mysql.connector.connect(**db_config)
-            query_attraction = "SELECT * FROM attractions WHERE id = %s"
-            cursor.execute(query_attraction, (attraction_id,))
-            attraction_data = cursor.fetchone()
-            return attraction_data
-    except Exception as e:
-        print("error：", str(e))
-        return None
-def get_contact_info(contact_id):
-    try:
-        with db_pool.get_connection() as connection, connection.cursor(dictionary=True) as cursor:
-            # connection = mysql.connector.connect(**db_config)
-            query_contact = "SELECT * FROM contact WHERE id = %s"
-            cursor.execute(query_contact, (contact_id,))
-            contact_data = cursor.fetchone()
-            return contact_data
-    except Exception as e:
-        print("發生異常：", str(e))
-        return None
+# def get_attraction_info(attraction_id):
+#     try:
+#         with db_pool.get_connection() as connection, connection.cursor(dictionary=True) as cursor:
+#             # connection = mysql.connector.connect(**db_config)
+#             query_attraction = "SELECT * FROM attractions WHERE id = %s"
+#             cursor.execute(query_attraction, (attraction_id,))
+#             attraction_data = cursor.fetchone()
+#             return attraction_data
+#     except Exception as e:
+#         print("error：", str(e))
+#         return None
+# def get_contact_info(contact_id):
+#     try:
+#         with db_pool.get_connection() as connection, connection.cursor(dictionary=True) as cursor:
+#             # connection = mysql.connector.connect(**db_config)
+#             query_contact = "SELECT * FROM contact WHERE id = %s"
+#             cursor.execute(query_contact, (contact_id,))
+#             contact_data = cursor.fetchone()
+#             return contact_data
+#     except Exception as e:
+#         print("發生異常：", str(e))
+#         return None
 
 
 app.debug = True

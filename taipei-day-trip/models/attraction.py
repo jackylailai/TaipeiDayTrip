@@ -46,3 +46,16 @@ def get_mrt_stations():
 
     except Exception as e:
         raise AttractionsError("An error occurred while fetching MRT stations.")
+    
+
+def get_attraction_info(attraction_id):
+    try:
+        with create_db_connection() as connection, connection.cursor(dictionary=True) as cursor:
+            # connection = mysql.connector.connect(**db_config)
+            query_attraction = "SELECT * FROM attractions WHERE id = %s"
+            cursor.execute(query_attraction, (attraction_id,))
+            attraction_data = cursor.fetchone()
+            return attraction_data
+    except Exception as e:
+        print("error：", str(e))
+        return None
